@@ -6,15 +6,18 @@
   <title>BITE - Smart Meal Prep</title>
   <style>
     :root {
-      --bg: #f8fafc;
+      --olive-bark: #585123;
+      --honey-bronze: #EEC170;
+      --sandy-brown: #F2A65A;
+      --atomic-tangerine: #F58549;
+      --brandy: #772F1A;
+
+      --bg: #fdfbf7;
       --card-bg: #ffffff;
-      --card-inner: #f1f5f9;
-      --primary: #10b981;
-      --primary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      --accent: #f97316;
-      --text: #0f172a;
-      --subtext: #64748b;
-      --border: #e2e8f0;
+      --card-inner: #fbf6ed;
+      --text: #2c251e;
+      --subtext: #6e6458;
+      --border: #e6dcce;
       --radius: 16px;
     }
 
@@ -24,35 +27,41 @@
     /* Header UI */
     header {
       background: var(--card-bg);
-      padding: 16px;
+      padding: 18px 16px;
       text-align: center;
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border-bottom: 2px solid var(--honey-bronze);
+      box-shadow: 0 2px 8px rgba(88, 81, 35, 0.08);
     }
     .logo {
-      font-size: 1.6rem;
+      font-size: 2rem;
       font-weight: 900;
-      background: linear-gradient(90deg, #10b981, #059669);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--brandy);
       letter-spacing: -0.5px;
+      line-height: 1;
     }
-    .subtitle { font-size: 0.75rem; color: var(--subtext); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .subtitle { 
+      font-size: 0.8rem; 
+      color: var(--olive-bark); 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px; 
+      font-weight: 700; 
+      margin-top: 4px;
+    }
 
     /* Bottom Navigation Bar */
     nav {
       position: fixed;
       bottom: 0;
       width: 100%;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(10px);
       display: flex;
       border-top: 1px solid var(--border);
       z-index: 100;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 -4px 12px rgba(88, 81, 35, 0.08);
     }
     nav button {
       flex: 1;
@@ -69,8 +78,8 @@
       gap: 4px;
     }
     nav button.active {
-      color: var(--primary);
-      border-top: 3px solid var(--primary);
+      color: var(--brandy);
+      border-top: 3px solid var(--atomic-tangerine);
     }
 
     /* Layout & Cards */
@@ -81,7 +90,7 @@
     .btn-main {
       width: 100%;
       padding: 16px;
-      background: var(--primary-gradient);
+      background: linear-gradient(135deg, var(--atomic-tangerine) 0%, var(--brandy) 100%);
       color: white;
       border: none;
       border-radius: var(--radius);
@@ -89,7 +98,7 @@
       font-weight: 800;
       cursor: pointer;
       margin-bottom: 16px;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+      box-shadow: 0 4px 14px rgba(245, 133, 73, 0.35);
       transition: transform 0.1s ease;
     }
     .btn-main:active { transform: scale(0.98); }
@@ -100,16 +109,18 @@
       padding: 16px;
       margin-bottom: 16px;
       border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 2px 8px rgba(88, 81, 35, 0.05);
     }
     .day-title {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      color: #047857;
+      color: var(--brandy);
       margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 2px solid var(--honey-bronze);
+      padding-bottom: 4px;
     }
 
     .meal-box {
@@ -117,7 +128,7 @@
       padding: 12px;
       background: var(--card-inner);
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #f0e4d4;
     }
     .meal-header {
       display: flex;
@@ -125,42 +136,41 @@
       align-items: center;
       margin-bottom: 4px;
     }
-    .meal-label { font-size: 0.7rem; font-weight: 800; color: var(--subtext); text-transform: uppercase; }
+    .meal-label { font-size: 0.7rem; font-weight: 800; color: var(--olive-bark); text-transform: uppercase; }
     .meal-title { 
       font-weight: 700; 
       font-size: 0.95rem; 
       margin-bottom: 6px; 
       cursor: pointer;
-      color: #0f172a;
-      text-decoration: underline dotted var(--primary);
+      color: var(--brandy);
+      text-decoration: underline dotted var(--sandy-brown);
     }
     
     .meal-meta {
       display: flex;
       gap: 10px;
       font-size: 0.75rem;
-      color: #475569;
+      color: var(--subtext);
       margin-bottom: 8px;
     }
 
     .badge-salva {
-      background: #ffedd5;
-      color: #c2410c;
+      background: var(--honey-bronze);
+      color: var(--brandy);
       font-size: 0.65rem;
       font-weight: 800;
       padding: 2px 6px;
       border-radius: 4px;
-      border: 1px solid #fdba74;
     }
 
-    /* Actions UI */
+    /* Actions & Swap UI */
     .swap-container {
       display: flex;
       flex-direction: column;
       gap: 6px;
       margin-top: 8px;
       padding-top: 8px;
-      border-top: 1px solid var(--border);
+      border-top: 1px dashed var(--border);
     }
     .swap-search {
       display: flex;
@@ -175,9 +185,13 @@
       color: var(--text);
       font-size: 0.8rem;
     }
+    .swap-search input:focus {
+      outline: none;
+      border-color: var(--sandy-brown);
+    }
     .btn-action {
-      padding: 8px 10px;
-      background: var(--primary);
+      padding: 8px 12px;
+      background: var(--olive-bark);
       color: white;
       border: none;
       border-radius: 8px;
@@ -187,7 +201,7 @@
     }
     .btn-recipe {
       padding: 8px 10px;
-      background: #2563eb;
+      background: var(--sandy-brown);
       color: white;
       border: none;
       border-radius: 8px;
@@ -198,9 +212,9 @@
     .btn-salva-action {
       width: 100%;
       padding: 8px;
-      background: #fff7ed;
-      color: #c2410c;
-      border: 1px solid #fdba74;
+      background: #fdf3e7;
+      color: var(--brandy);
+      border: 1px solid var(--sandy-brown);
       border-radius: 8px;
       font-weight: 700;
       font-size: 0.75rem;
@@ -212,7 +226,7 @@
     .spesa-section-title {
       font-size: 0.95rem;
       font-weight: 800;
-      color: #047857;
+      color: var(--brandy);
       margin: 16px 0 8px 0;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -228,12 +242,12 @@
       font-size: 0.9rem;
       font-weight: 600;
       color: var(--text);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(88, 81, 35, 0.03);
       cursor: pointer;
     }
-    .list-item input { margin-right: 12px; transform: scale(1.3); accent-color: var(--primary); cursor: pointer; }
+    .list-item input { margin-right: 12px; transform: scale(1.3); accent-color: var(--atomic-tangerine); cursor: pointer; }
     .list-item.checked { text-decoration: line-through; opacity: 0.4; }
-    .salva-item { border-left: 4px solid var(--accent); }
+    .salva-item { border-left: 4px solid var(--atomic-tangerine); }
 
     /* Switch Colazione */
     .breakfast-toggle {
@@ -247,28 +261,28 @@
       border: 1px solid var(--border);
       font-size: 0.85rem;
       font-weight: 600;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(88, 81, 35, 0.03);
     }
-    .breakfast-toggle input { accent-color: var(--primary); transform: scale(1.2); }
+    .breakfast-toggle input { accent-color: var(--atomic-tangerine); transform: scale(1.2); }
 
     .batch-card {
       background: var(--card-bg);
-      border-left: 4px solid var(--primary);
+      border-left: 4px solid var(--sandy-brown);
       padding: 14px;
       border-radius: 10px;
       margin-bottom: 10px;
       border: 1px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(88, 81, 35, 0.03);
     }
-    .batch-card h4 { color: #047857; margin-bottom: 4px; font-size: 0.95rem; }
-    .batch-card p { font-size: 0.85rem; color: #334155; line-height: 1.4; }
+    .batch-card h4 { color: var(--brandy); margin-bottom: 4px; font-size: 0.95rem; }
+    .batch-card p { font-size: 0.85rem; color: var(--subtext); line-height: 1.4; }
 
     /* Modal Ricetta */
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(44, 37, 30, 0.5);
       backdrop-filter: blur(4px);
       z-index: 1000;
       align-items: center;
@@ -285,7 +299,7 @@
       overflow-y: auto;
       padding: 20px;
       position: relative;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
     }
     .modal-close {
       position: absolute;
@@ -297,11 +311,11 @@
       font-size: 1.5rem;
       cursor: pointer;
     }
-    .modal-title { font-size: 1.2rem; font-weight: 800; color: #047857; margin-bottom: 4px; padding-right: 20px; }
-    .modal-subtitle { font-size: 0.75rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+    .modal-title { font-size: 1.2rem; font-weight: 800; color: var(--brandy); margin-bottom: 4px; padding-right: 20px; }
+    .modal-subtitle { font-size: 0.75rem; color: var(--atomic-tangerine); font-weight: 700; margin-bottom: 10px; }
     .modal-section { margin-bottom: 14px; }
-    .modal-section h5 { color: var(--subtext); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 6px; }
-    .modal-section ul, .modal-section ol { padding-left: 18px; font-size: 0.85rem; color: #334155; }
+    .modal-section h5 { color: var(--olive-bark); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 6px; }
+    .modal-section ul, .modal-section ol { padding-left: 18px; font-size: 0.85rem; color: var(--text); }
     .modal-section li { margin-bottom: 6px; line-height: 1.4; }
   </style>
 </head>
@@ -309,7 +323,7 @@
 
   <header>
     <div class="logo">BITE</div>
-    <div class="subtitle">Smart Meal Prep (2 Persone)</div>
+    <div class="subtitle">Smart Meal Prep</div>
   </header>
 
   <div class="container">
@@ -328,20 +342,20 @@
 
     <!-- TAB SPESA -->
     <div id="tab-spesa" class="tab-content">
-      <h2 style="margin-bottom: 4px;">🛒 Lista Spesa (2 Persone)</h2>
+      <h2 style="margin-bottom: 4px; color: var(--brandy);">🛒 Lista Spesa</h2>
       <p style="font-size: 0.8rem; color: var(--subtext); margin-bottom: 16px;">I quantitativi delle ricette della settimana sono automaticamente sommati.</p>
       
       <div class="spesa-section-title">📦 Ingredienti per il Menu Settimanale</div>
       <div id="spesa-container"></div>
 
-      <div class="spesa-section-title" style="margin-top: 24px; color: var(--accent);">⚡ Refill Scorta Salvaimprevisti</div>
+      <div class="spesa-section-title" style="margin-top: 24px; color: var(--atomic-tangerine);">⚡ Refill Scorta Salvaimprevisti</div>
       <p style="font-size: 0.75rem; color: var(--subtext); margin-bottom: 8px;">Spunta quello che ti manca in dispensa per averli sempre pronti all'uso:</p>
       <div id="spesa-salvaimprevisti-container"></div>
     </div>
 
     <!-- TAB BATCH COOKING -->
     <div id="tab-batch" class="tab-content">
-      <h2 style="margin-bottom: 8px;">👩‍🍳 Prep & Batch (Domenica)</h2>
+      <h2 style="margin-bottom: 8px; color: var(--brandy);">👩‍🍳 Prep & Batch (Domenica)</h2>
       <p style="font-size: 0.8rem; color: var(--subtext); margin-bottom: 16px;">Cose che puoi preparare in anticipo per risparmiare tempo in settimana:</p>
       <div id="batch-container"></div>
     </div>
@@ -834,6 +848,8 @@
         card.innerHTML = `
           <div class="day-title"><span>${item.giorno}</span></div>
           ${colazioneHTML}
+          
+          <!-- PRANZO -->
           <div class="meal-box">
             <div class="meal-header">
               <span class="meal-label">🌞 Pranzo</span>
@@ -846,13 +862,15 @@
             </div>
             <div class="swap-container">
               <div class="swap-search">
-                <button class="btn-action" onclick="cambiaPasto(${index}, 'pranzo')">🔄 Cambia</button>
+                <input type="text" id="search-${index}-pranzo" placeholder="Es. tonno, zucca, pollo...">
+                <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'pranzo')">🔍 Cerca</button>
                 <button class="btn-recipe" onclick="apriModal(${item.pranzo.id}, ${item.pranzo.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
               </div>
               <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'pranzo')">⚡ Usa Salvaimprevisti</button>
             </div>
           </div>
 
+          <!-- CENA -->
           <div class="meal-box">
             <div class="meal-header">
               <span class="meal-label">🌙 Cena</span>
@@ -865,7 +883,8 @@
             </div>
             <div class="swap-container">
               <div class="swap-search">
-                <button class="btn-action" onclick="cambiaPasto(${index}, 'cena')">🔄 Cambia</button>
+                <input type="text" id="search-${index}-cena" placeholder="Es. tonno, zucca, pollo...">
+                <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'cena')">🔍 Cerca</button>
                 <button class="btn-recipe" onclick="apriModal(${item.cena.id}, ${item.cena.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
               </div>
               <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'cena')">⚡ Usa Salvaimprevisti</button>
@@ -876,9 +895,32 @@
       });
     }
 
-    function cambiaPasto(giornoIndex, tipoPasto) {
-      const nuovoPasto = getRandomItem(ricetteDB.primi_secondi);
-      menuSettimanale[giornoIndex][tipoPasto] = { ...nuovoPasto };
+    function cercaECambiaPasto(giornoIndex, tipoPasto) {
+      const inputEl = document.getElementById(`search-${giornoIndex}-${tipoPasto}`);
+      const termine = inputEl ? inputEl.value.trim().toLowerCase() : '';
+
+      if (!termine) {
+        // Sostituzione casuale se il campo di ricerca è vuoto
+        const nuovoPasto = getRandomItem(ricetteDB.primi_secondi);
+        menuSettimanale[giornoIndex][tipoPasto] = { ...nuovoPasto };
+      } else {
+        // Cerca tra le ricette che contengono l'ingrediente o la parola nel nome/ingredienti
+        const trovate = ricetteDB.primi_secondi.filter(r => {
+          const inNome = r.nome.toLowerCase().includes(termine);
+          const inIngr = r.ingredienti.some(i => i.nome.toLowerCase().includes(termine));
+          return inNome || inIngr;
+        });
+
+        if (trovate.length > 0) {
+          const scelta = getRandomItem(trovate);
+          menuSettimanale[giornoIndex][tipoPasto] = { ...scelta };
+        } else {
+          alert(`Nessuna ricetta trovata con "${termine}". Sostituzione con una ricetta casuale.`);
+          const nuovoPasto = getRandomItem(ricetteDB.primi_secondi);
+          menuSettimanale[giornoIndex][tipoPasto] = { ...nuovoPasto };
+        }
+      }
+
       renderMenu();
       renderSpesa();
       renderBatch();
@@ -921,7 +963,7 @@
         });
       });
 
-      Object.values(mappaIngredienti).forEach((ing, i) => {
+      Object.values(mappaIngredienti).forEach((ing) => {
         const item = document.createElement('div');
         item.className = 'list-item';
         item.onclick = function() { this.classList.toggle('checked'); };
@@ -995,7 +1037,7 @@
         <div class="modal-subtitle">⏱️ ${ricetta.tempo || ''} | ${ricetta.metodo || ''}</div>
         
         <div class="modal-section">
-          <h5>Ingredienti per 2 persone</h5>
+          <h5>Ingredienti</h5>
           <ul>${ingredientiList}</ul>
         </div>
 
