@@ -1,45 +1,43 @@
-// Dati di esempio per le ricette
-const recipesData = {
-  "1": {
-    title: "Porridge di Avena e Banane",
-    instructions: "Cuoci l'avena con il latte per 5 minuti. Taglia le banane a fette e aggiungile sopra con un cucchiaio di miele."
-  }
-};
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ricerca Ricette</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-// Elementi DOM
-const modal = document.getElementById("recipe-modal");
-const modalTitle = document.getElementById("modal-title");
-const modalBody = document.getElementById("modal-body");
-const closeBtn = document.querySelector(".close-btn");
+  <div class="main-container">
+    <!-- Box di Ricerca (senza il pulsante Ricetta) -->
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Es. banana, porridge, cookies...">
+      <button id="search-btn">🔍 Cerca</button>
+    </div>
 
-// Funzione per aprire la modal
-function openModal(recipeId) {
-  const recipe = recipesData[recipeId];
-  if (recipe) {
-    modalTitle.textContent = recipe.title;
-    modalBody.textContent = recipe.instructions;
-    modal.style.display = "flex";
-  }
-}
+    <!-- Elenco dei Risultati -->
+    <div id="results-container" class="results-container">
+      <div class="recipe-item">
+        <span class="recipe-name" data-id="1">Porridge di Avena e Banana</span>
+      </div>
+      <div class="recipe-item">
+        <span class="recipe-name" data-id="2">Biscotti ai Chocolate Chips</span>
+      </div>
+    </div>
+  </div>
 
-// Funzione per chiudere la modal
-function closeModal() {
-  modal.style.display = "none";
-}
+  <!-- Popup Modal Ricetta -->
+  <div id="recipe-modal" class="modal-overlay">
+    <div class="modal-card">
+      <span id="close-modal-btn" class="close-btn">&times;</span>
+      <h2 id="modal-recipe-title">Titolo Ricetta</h2>
+      <hr>
+      <div id="modal-recipe-body">
+        <!-- Il testo o gli ingredienti verranno inseriti via JavaScript -->
+      </div>
+    </div>
+  </div>
 
-// Event Delegate per intercettare il click sul nome della ricetta
-document.getElementById("results-list").addEventListener("click", (event) => {
-  if (event.target.classList.contains("recipe-title")) {
-    const recipeId = event.target.getAttribute("data-recipe-id");
-    openModal(recipeId);
-  }
-});
-
-// Eventi di chiusura Modal
-closeBtn.addEventListener("click", closeModal);
-
-window.addEventListener("click", (event) => {
-  if (event.target === modal) {
-    closeModal();
-  }
-});
+  <script src="script.js"></script>
+</body>
+</html>
