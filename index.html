@@ -3,41 +3,1814 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ricerca Ricette</title>
-  <link rel="stylesheet" href="style.css">
+  <title>BITE - Smart Meal Prep</title>
+  <style>
+    :root {
+      --olive-bark: #585123;
+      --honey-bronze: #EEC170;
+      --sandy-brown: #F2A65A;
+      --atomic-tangerine: #F58549;
+      --brandy: #772F1A;
+
+      --bg: #fdfbf7;
+      --card-bg: #ffffff;
+      --card-inner: #fbf6ed;
+      --text: #2c251e;
+      --subtext: #6e6458;
+      --border: #e6dcce;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; }
+
+    /* Header UI */
+    header {
+      background: var(--card-bg);
+      padding: 18px 16px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--honey-bronze);
+      box-shadow: 0 2px 8px rgba(88, 81, 35, 0.08);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--brandy);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .subtitle { 
+      font-size: 0.8rem; 
+      color: var(--olive-bark); 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px; 
+      font-weight: 700; 
+      margin-top: 4px;
+    }
+
+    /* Bottom Navigation Bar */
+    nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      display: flex;
+      border-top: 1px solid var(--border);
+      z-index: 100;
+      box-shadow: 0 -4px 12px rgba(88, 81, 35, 0.08);
+    }
+    nav button {
+      flex: 1;
+      padding: 12px 4px;
+      border: none;
+      background: none;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--subtext);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    nav button.active {
+      color: var(--brandy);
+      border-top: 3px solid var(--atomic-tangerine);
+    }
+
+    /* Layout & Cards */
+    .container { padding: 16px; max-width: 500px; margin: 0 auto; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Bottone Rigenera a colore unico solido */
+    .btn-main {
+      width: 100%;
+      padding: 16px;
+      background: var(--atomic-tangerine);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(245, 133, 73, 0.35);
+      transition: transform 0.1s ease, background-color 0.2s ease;
+    }
+    .btn-main:active { transform: scale(0.98); }
+
+    .day-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(88, 81, 35, 0.05);
+    }
+    .day-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--brandy);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--honey-bronze);
+      padding-bottom: 4px;
+    }
+
+    .meal-box {
+      margin-bottom: 12px;
+      padding: 12px;
+      background: var(--card-inner);
+      border-radius: 12px;
+      border: 1px solid #f0e4d4;
+    }
+    .meal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .meal-label { font-size: 0.7rem; font-weight: 800; color: var(--olive-bark); text-transform: uppercase; }
+    .meal-title { 
+      font-weight: 700; 
+      font-size: 0.95rem; 
+      margin-bottom: 6px; 
+      cursor: pointer;
+      color: var(--brandy);
+      text-decoration: underline dotted var(--sandy-brown);
+    }
+    
+    .meal-meta {
+      display: flex;
+      gap: 10px;
+      font-size: 0.75rem;
+      color: var(--subtext);
+      margin-bottom: 8px;
+    }
+
+    .badge-salva {
+      background: var(--honey-bronze);
+      color: var(--brandy);
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Actions & Swap UI */
+    .swap-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+    }
+    .swap-search {
+      display: flex;
+      gap: 6px;
+    }
+    .swap-search input {
+      flex: 1;
+      padding: 8px 10px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.8rem;
+    }
+    .swap-search input:focus {
+      outline: none;
+      border-color: var(--sandy-brown);
+    }
+    .btn-action {
+      padding: 8px 12px;
+      background: var(--olive-bark);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .btn-recipe {
+      padding: 8px 10px;
+      background: var(--sandy-brown);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .btn-salva-action {
+      width: 100%;
+      padding: 8px;
+      background: #fdf3e7;
+      color: var(--brandy);
+      border: 1px solid var(--sandy-brown);
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    /* Checklist Item */
+    .spesa-section-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--brandy);
+      margin: 16px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .list-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(88, 81, 35, 0.03);
+      cursor: pointer;
+    }
+    .list-item input { margin-right: 12px; transform: scale(1.3); accent-color: var(--atomic-tangerine); cursor: pointer; }
+    .list-item.checked { text-decoration: line-through; opacity: 0.4; }
+    .salva-item { border-left: 4px solid var(--atomic-tangerine); }
+
+    /* Switch Colazione */
+    .breakfast-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(88, 81, 35, 0.03);
+    }
+    .breakfast-toggle input { accent-color: var(--atomic-tangerine); transform: scale(1.2); }
+
+    .batch-card {
+      background: var(--card-bg);
+      border-left: 4px solid var(--sandy-brown);
+      padding: 14px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(88, 81, 35, 0.03);
+    }
+    .batch-card h4 { color: var(--brandy); margin-bottom: 4px; font-size: 0.95rem; }
+    .batch-card p { font-size: 0.85rem; color: var(--subtext); line-height: 1.4; }
+
+    /* Modal Ricetta */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(44, 37, 30, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 450px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--subtext);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-title { font-size: 1.2rem; font-weight: 800; color: var(--brandy); margin-bottom: 4px; padding-right: 20px; }
+    .modal-subtitle { font-size: 0.75rem; color: var(--atomic-tangerine); font-weight: 700; margin-bottom: 10px; }
+    .modal-section { margin-bottom: 14px; }
+    .modal-section h5 { color: var(--olive-bark); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 6px; }
+    .modal-section ul, .modal-section ol { padding-left: 18px; font-size: 0.85rem; color: var(--text); }
+    .modal-section li { margin-bottom: 6px; line-height: 1.4; }
+  </style>
 </head>
 <body>
 
-  <div class="main-container">
-    <!-- Box di Ricerca (senza il pulsante Ricetta) -->
-    <div class="search-box">
-      <input type="text" id="search-input" placeholder="Es. banana, porridge, cookies...">
-      <button id="search-btn">🔍 Cerca</button>
+  <header>
+    <div class="logo">BITE</div>
+    <div class="subtitle">Smart Meal Prep</div>
+  </header>
+
+  <div class="container">
+    
+    <!-- TAB MENU -->
+    <div id="tab-menu" class="tab-content active">
+      <button class="btn-main" onclick="generaMenuSettimanale()">⚡ Rigenera Settimana</button>
+
+      <div class="breakfast-toggle">
+        <span>Includi Colazione</span>
+        <input type="checkbox" id="include-breakfast" onchange="toggleColazione(this.checked)">
+      </div>
+
+      <div id="menu-container"></div>
     </div>
 
-    <!-- Elenco dei Risultati -->
-    <div id="results-container" class="results-container">
-      <div class="recipe-item">
-        <span class="recipe-name" data-id="1">Porridge di Avena e Banana</span>
-      </div>
-      <div class="recipe-item">
-        <span class="recipe-name" data-id="2">Biscotti ai Chocolate Chips</span>
-      </div>
+    <!-- TAB SPESA -->
+    <div id="tab-spesa" class="tab-content">
+      <h2 style="margin-bottom: 4px; color: var(--brandy);">🛒 Lista Spesa</h2>
+      <p style="font-size: 0.8rem; color: var(--subtext); margin-bottom: 16px;">I quantitativi delle ricette della settimana sono automaticamente sommati.</p>
+      
+      <div class="spesa-section-title">📦 Ingredienti per il Menu Settimanale</div>
+      <div id="spesa-container"></div>
+
+      <div class="spesa-section-title" style="margin-top: 24px; color: var(--atomic-tangerine);">⚡ Refill Scorta Salvaimprevisti</div>
+      <p style="font-size: 0.75rem; color: var(--subtext); margin-bottom: 8px;">Spunta quello che ti manca in dispensa per averli sempre pronti all'uso:</p>
+      <div id="spesa-salvaimprevisti-container"></div>
+    </div>
+
+    <!-- TAB BATCH COOKING -->
+    <div id="tab-batch" class="tab-content">
+      <h2 style="margin-bottom: 8px; color: var(--brandy);">👩‍🍳 Prep & Batch (Domenica)</h2>
+      <p style="font-size: 0.8rem; color: var(--subtext); margin-bottom: 16px;">Cose che puoi preparare in anticipo per risparmiare tempo in settimana:</p>
+      <div id="batch-container"></div>
+    </div>
+
+  </div>
+
+  <!-- MODAL MOSTRA RICETTA -->
+  <div id="recipe-modal" class="modal" onclick="chiudiModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="chiudiModalDirect()">&times;</button>
+      <div id="modal-body"></div>
     </div>
   </div>
 
-  <!-- Popup Modal Ricetta -->
-  <div id="recipe-modal" class="modal-overlay">
-    <div class="modal-card">
-      <span id="close-modal-btn" class="close-btn">&times;</span>
-      <h2 id="modal-recipe-title">Titolo Ricetta</h2>
-      <hr>
-      <div id="modal-recipe-body">
-        <!-- Il testo o gli ingredienti verranno inseriti via JavaScript -->
-      </div>
-    </div>
-  </div>
+  <!-- NAVIGATION -->
+  <nav>
+    <button id="nav-menu" class="active" onclick="switchTab('menu')">
+      <span>📅</span> Menu
+    </button>
+    <button id="nav-spesa" onclick="switchTab('spesa')">
+      <span>🛒</span> Spesa
+    </button>
+    <button id="nav-batch" onclick="switchTab('batch')">
+      <span>👩‍🍳</span> Prep
+    </button>
+  </nav>
 
-  <script src="script.js"></script>
+  <script>
+    const ricetteDB = {
+      primi_secondi: [
+        { 
+          id: 1, nome: "Gnocchi di barbabietola", 
+          ingredienti: [
+            { nome: "Gnocchi di barbabietola", dose: 400, unita: "g" },
+            { nome: "Burro", dose: 30, unita: "g" },
+            { nome: "Salvia", dose: 6, unita: "foglie" },
+            { nome: "Parmigiano", dose: 40, unita: "g" }
+          ], 
+          tempo: "15 min", metodo: "🍳 Padella", 
+          prep: "Puoi impastare e formare gli gnocchi nel weekend e congelarli o tenerli in frigo 2-3 giorni.",
+          procedimento: ["Lessa gli gnocchi in abbondante acqua salata fino a quando non salgono a galla.", "In una padella fai fondere il burro con le foglie di salvia fresca.", "Scola gli gnocchi con una schiumarola direttamente nella padella e salta per 1 minuto.", "Servi completando con parmigiano grattugiato."]
+        },
+        { 
+          id: 2, nome: "Pasta barbabietola e feta", 
+          ingredienti: [
+            { nome: "Pasta", dose: 160, unita: "g" },
+            { nome: "Barbabietola precotta", dose: 150, unita: "g" },
+            { nome: "Feta", dose: 100, unita: "g" },
+            { nome: "Noci", dose: 30, unita: "g" }
+          ], 
+          tempo: "15 min", metodo: "🍳 Padella", 
+          prep: null,
+          procedimento: ["Metti a bollire l'acqua e cuoci la pasta.", "Frulla la barbabietola precotta con un pizzico di sale, olio e un goccio d'acqua di cottura della pasta.", "Scola la pasta e mantecala con la crema di barbabietola.", "Impiatta e sbriciola sopra la feta e le noci tritate."]
+        },
+        { 
+          id: 3, nome: "Spaghetti al ragù di polpo", 
+          ingredienti: [
+            { nome: "Spaghetti", dose: 160, unita: "g" },
+            { nome: "Polpo", dose: 300, unita: "g" },
+            { nome: "Passata di pomodoro", dose: 200, unita: "g" },
+            { nome: "Aglio", dose: 1, unita: "spicchio" },
+            { nome: "Vino bianco", dose: 50, unita: "ml" }
+          ], 
+          tempo: "40 min", metodo: "🍳 Padella", 
+          prep: "Puoi cuocere il ragù di polpo in anticipo la domenica (si conserva 3 giorni in frigo).",
+          procedimento: ["Taglia il polpo a pezzettini piccoli.", "Soffriggi un spicchio d'aglio con olio, aggiungi il polpo e sfuma con il vino bianco.", "Aggiungi la passata di pomodoro e cuoci a fuoco lento per 30 minuti fino a renderlo tenero.", "Cuoci la pasta, scolala e mantecala nel ragù."]
+        },
+        { 
+          id: 4, nome: "Fusilli al pesto di zucchine e salmone", 
+          ingredienti: [
+            { nome: "Fusilli", dose: 160, unita: "g" },
+            { nome: "Zucchine", dose: 200, unita: "g" },
+            { nome: "Salmone affumicato", dose: 100, unita: "g" },
+            { nome: "Mandorle", dose: 20, unita: "g" },
+            { nome: "Olio EVO", dose: 20, unita: "ml" }
+          ], 
+          tempo: "20 min", metodo: "🍳 Padella", 
+          prep: "Puoi preparare il pesto di zucchine e mandorle in anticipo (dura 3-4 giorni in vasetto).",
+          procedimento: ["Grattugia le zucchine a crudo o frullale con mandorle, olio, sale e parmigiano per ottenere il pesto.", "Cuoci i fusilli in acqua salata.", "Taglia il salmone affumicato a striscioline.", "Scola la pasta, condisci con il pesto di zucchine e aggiungi il salmone a crudo prima di servire."]
+        },
+        { 
+          id: 5, nome: "Risotto alla zucca", 
+          ingredienti: [
+            { nome: "Riso per risotti", dose: 160, unita: "g" },
+            { nome: "Zucca", dose: 250, unita: "g" },
+            { nome: "Brodo vegetale", dose: 500, unita: "ml" },
+            { nome: "Cipolla", dose: 0.5, unita: "pz" },
+            { nome: "Parmigiano", dose: 30, unita: "g" }
+          ], 
+          tempo: "25 min", metodo: "🍳 Padella", 
+          prep: "Puoi cuocere la zucca al forno/vapore e ridurla in purea in anticipo per velocizzare il risotto.",
+          procedimento: ["Soffriggi la cipolla con poco olio e tosta il riso per due minuti.", "Aggiungi la zucca a cubetti piccoli o in purea e comincia a bagnare con brodo caldo.", "Porta a cottura mescolando di tanto in tanto.", "Spegni il fuoco e manteca con burro freddo e parmigiano."]
+        },
+        { 
+          id: 6, nome: "Pomodori ripieni di riso", 
+          ingredienti: [
+            { nome: "Pomodori grandi", dose: 4, unita: "pz" },
+            { nome: "Riso", dose: 120, unita: "g" },
+            { nome: "Patate", dose: 300, unita: "g" },
+            { nome: "Origano", dose: 1, unita: "q.b." },
+            { nome: "Aglio", dose: 1, unita: "spicchio" }
+          ], 
+          tempo: "45 min", metodo: "♨️ Forno", 
+          prep: "Puoi cuocerli completamente in anticipo: sono perfetti da mangiare anche freddi o riscaldati.",
+          procedimento: ["Svuota i pomodori e metti la polpa frullata in una ciotola con riso crudo, origano, aglio tritato e olio.", "Fai riposare il riso nella polpa per 30 minuti.", "Riempi i pomodori, disponili in una teglia con spicchi di patate condite.", "Inforna a 200°C per circa 40-45 minuti."]
+        },
+        { 
+          id: 7, nome: "Vellutata di zucca e carote", 
+          ingredienti: [
+            { nome: "Zucca", dose: 350, unita: "g" },
+            { nome: "Carote", dose: 200, unita: "g" },
+            { nome: "Cipolla", dose: 0.5, unita: "pz" },
+            { nome: "Olio EVO", dose: 15, unita: "ml" },
+            { nome: "Crostini", dose: 60, unita: "g" }
+          ], 
+          tempo: "30 min", metodo: "🍳 Padella", 
+          prep: "Prepara la vellutata completa nel weekend e conservala in contenitori ermetici fino a 4 giorni.",
+          procedimento: ["Taglia zucca e carote a toccetti.", "Fai soffriggere la cipolla, unisci le verdure e copri con brodo vegetale o acqua.", "Cuoci per 20 minuti finché non diventano morbide.", "Frulla tutto con un mixer ad immersione fino a renderla vellutata e servi con crostini."]
+        },
+        { 
+          id: 8, nome: "Vellutata di cavolo nero", 
+          ingredienti: [
+            { nome: "Cavolo nero", dose: 250, unita: "g" },
+            { nome: "Patate", dose: 250, unita: "g" },
+            { nome: "Cipolla", dose: 0.5, unita: "pz" },
+            { nome: "Brodo vegetale", dose: 400, unita: "ml" },
+            { nome: "Olio EVO", dose: 15, unita: "ml" }
+          ], 
+          tempo: "30 min", metodo: "🍳 Padella", 
+          prep: "Prepara la vellutata in anticipo e conservala in frigo per la settimana.",
+          procedimento: ["Pulisci il cavolo nero rimuovendo la costa centrale dura.", "Taglia le patate a cubetti e soffriggi la cipolla.", "Unisci patate e cavolo nero, copri con brodo e cuoci 25 minuti.", "Frulla finemente e servile con un filo d'olio a crudo."]
+        },
+        { 
+          id: 9, nome: "Vellutata di zucchine e porri", 
+          ingredienti: [
+            { nome: "Zucchine", dose: 350, unita: "g" },
+            { nome: "Porri", dose: 150, unita: "g" },
+            { nome: "Patate", dose: 200, unita: "g" },
+            { nome: "Olio EVO", dose: 15, unita: "ml" }
+          ], 
+          tempo: "25 min", metodo: "🍳 Padella", 
+          prep: "Prepara l'intera vellutata in anticipo per 3-4 giorni.",
+          procedimento: ["Affetta finemente il porro e stufalo in padella con olio e poca acqua.", "Aggiungi le patate e le zucchine a rondelle, sfuma con brodo vegetale.", "Cuoci per 20 minuti e frulla tutto fino ad ottenere una crema omogenea."]
+        },
+        { 
+          id: 10, nome: "Zuppa di lenticchie", 
+          ingredienti: [
+            { nome: "Lenticchie secche", dose: 140, unita: "g" },
+            { nome: "Carote", dose: 100, unita: "g" },
+            { nome: "Sedano", dose: 80, unita: "g" },
+            { nome: "Passata di pomodoro", dose: 100, unita: "g" },
+            { nome: "Alloro", dose: 2, unita: "foglie" }
+          ], 
+          tempo: "35 min", metodo: "🍳 Padella", 
+          prep: "Cucinane in abbondanza in anticipo: le zuppe di legumi migliorano di sapore il giorno dopo.",
+          procedimento: ["Fai un tritato di sedano e carota e rosolalo in pentola.", "Aggiungi le lenticchie sciacquate, un paio di cucchiai di passata e la foglia d'alloro.", "Copri d'acqua e cuoci per 30 minuti a fuoco dolce."]
+        },
+        { 
+          id: 11, nome: "Insalatone veloci", 
+          ingredienti: [
+            { nome: "Insalata mista", dose: 150, unita: "g" },
+            { nome: "Finocchi", dose: 1, unita: "pz" },
+            { nome: "Pomodori", dose: 150, unita: "g" },
+            { nome: "Noci", dose: 30, unita: "g" },
+            { nome: "Parmigiano", dose: 40, unita: "g" }
+          ], 
+          tempo: "10 min", metodo: "🥗 Senza Cottura", 
+          prep: "Lava, asciuga e porziona la verdura a foglia verde per averla pronta all'uso.",
+          procedimento: ["Pulisci ed affetta tutte le verdure fresche.", "Unisci le noci o i cubetti di formaggio.", "Condisci solo al momento di consumare con olio EVO, sale e limone/aceto."]
+        },
+        { 
+          id: 12, nome: "Polpette di ceci e spinaci", 
+          ingredienti: [
+            { nome: "Ceci cotti", dose: 240, unita: "g" },
+            { nome: "Spinaci cotti", dose: 150, unita: "g" },
+            { nome: "Pan grattato", dose: 40, unita: "g" },
+            { nome: "Aglio", dose: 0.5, unita: "spicchio" }
+          ], 
+          tempo: "20 min", metodo: "♨️ Forno / Air Fryer", 
+          prep: "Forma le polpette nel weekend e conservale crude in frigo o congelale.",
+          procedimento: ["Frulla i ceci con gli spinaci stufati, un pizzico d'aglio, sale e spezie a piacere.", "Aggiungi pan grattato fino a ottenere un impasto modellabile.", "Forma delle polpette e cuocile in forno o air fryer a 190°C per 15-20 minuti."]
+        },
+        { 
+          id: 13, nome: "Polpette spinaci, piselli e feta", 
+          ingredienti: [
+            { nome: "Spinaci cotti", dose: 150, unita: "g" },
+            { nome: "Piselli", dose: 150, unita: "g" },
+            { nome: "Feta", dose: 100, unita: "g" },
+            { nome: "Uova", dose: 1, unita: "pz" },
+            { nome: "Pan grattato", dose: 30, unita: "g" }
+          ], 
+          tempo: "20 min", metodo: "♨️ Forno / Air Fryer", 
+          prep: "Forma le polpette in anticipo pronti per essere infornati.",
+          procedimento: ["Frulla grossolanamente piselli e spinaci già cotti.", "Unisci la feta sbriciolata, l'uovo e poco pan grattato per legare.", "Forma delle polpette e cuocile a 180°C fino a doratura."]
+        },
+        { 
+          id: 14, nome: "Burger di lenticchie", 
+          ingredienti: [
+            { nome: "Lenticchie cotte", dose: 250, unita: "g" },
+            { nome: "Carote", dose: 80, unita: "g" },
+            { nome: "Cipolla", dose: 0.5, unita: "pz" },
+            { nome: "Farina d'avena", dose: 40, unita: "g" }
+          ], 
+          tempo: "15 min", metodo: "🍳 Padella", 
+          prep: "Prepara i burger e conservali in frigo divisi da carta forno per 3-4 giorni.",
+          procedimento: ["Soffriggi carota e cipolla tritate.", "Frulla le lenticchie cotte con il soffritto e aggiungi la farina d'avena per dare consistenza.", "Forma dei burger e rosolali in padella antiaderente 4 minuti per lato."]
+        },
+        { 
+          id: 15, nome: "Burger di carote e fagioli", 
+          ingredienti: [
+            { nome: "Fagioli bianchi cotti", dose: 250, unita: "g" },
+            { nome: "Carote", dose: 120, unita: "g" },
+            { nome: "Pan grattato", dose: 40, unita: "g" }
+          ], 
+          tempo: "15 min", metodo: "🍳 Padella", 
+          prep: "Modella i burger e tienili in frigo riposati pronti alla cottura.",
+          procedimento: ["Schiaccia i fagioli con una forchetta.", "Aggiungi la carota grattugiata finemente, sale, erbe aromatiche e pan grattato.", "Crea dei medaglioni e cuocili in padella con un filo d'olio."]
+        },
+        { 
+          id: 16, nome: "Medaglioni zucca e ricotta", 
+          ingredienti: [
+            { nome: "Zucca", dose: 250, unita: "g" },
+            { nome: "Ricotta", dose: 150, unita: "g" },
+            { nome: "Parmigiano", dose: 30, unita: "g" },
+            { nome: "Uova", dose: 1, unita: "pz" },
+            { nome: "Pan grattato", dose: 40, unita: "g" }
+          ], 
+          tempo: "25 min", metodo: "♨️ Forno", 
+          prep: "Cuoci la zucca al forno e crea il composto dei medaglioni in anticipo.",
+          procedimento: ["Schiaccia la zucca cotta e uniscila alla ricotta ben scolata, parmigiano e uovo.", "Regola di sale e pepe e aggiungi pan grattato.", "Forma dei medaglioni e inforna a 190°C per 20 minuti."]
+        },
+        { 
+          id: 17, nome: "Pancake pollo e zucchine", 
+          ingredienti: [
+            { nome: "Macinato di pollo", dose: 250, unita: "g" },
+            { nome: "Zucchine", dose: 150, unita: "g" },
+            { nome: "Uova", dose: 1, unita: "pz" },
+            { nome: "Farina", dose: 20, unita: "g" }
+          ], 
+          tempo: "15 min", metodo: "🍳 Padella", 
+          prep: null,
+          procedimento: ["Grattugia la zucchina e strizzala bene dall'acqua.", "Mescola il macinato di pollo, la zucchina, l'uovo e un cucchiaio di farina.", "Cuoci a cucchiaiate in padella antiaderente fino a doratura su entrambi i lati."]
+        },
+        { 
+          id: 18, nome: "Involtini di pollo", 
+          ingredienti: [
+            { nome: "Fettine di pollo", dose: 300, unita: "g" },
+            { nome: "Prosciutto cotto", dose: 60, unita: "g" },
+            { nome: "Provola", dose: 60, unita: "g" },
+            { nome: "Salvia", dose: 4, unita: "foglie" }
+          ], 
+          tempo: "15 min", metodo: "🍳 Padella", 
+          prep: "Puoi arrotolare gli involtini e fermarli con uno stuzzicadenti la sera prima.",
+          procedimento: ["Stendi le fettine di pollo, adagia sopra una fetta di prosciutto e una di formaggio.", "Arrotola e fissa con stuzzicadenti e una foglia di salvia.", "Cuoci in padella con un filo d'olio e sfuma con vino bianco se gradito."]
+        },
+        { 
+          id: 19, nome: "Polpette di merluzzo", 
+          ingredienti: [
+            { nome: "Merluzzo", dose: 250, unita: "g" },
+            { nome: "Patate", dose: 200, unita: "g" },
+            { nome: "Uova", dose: 1, unita: "pz" },
+            { nome: "Pan grattato", dose: 30, unita: "g" }
+          ], 
+          tempo: "20 min", metodo: "♨️ Forno / Air Fryer", 
+          prep: "Lessa le patate e il merluzzo e forma le polpette il giorno prima.",
+          procedimento: ["Schiaccia le patate lesse e uniscile al merluzzo cotto e sminuzzato.", "Aggiungi prezzemolo, sale e uovo.", "Crea le polpette, passale nel pan grattato e cuoci in forno a 180°C per 15 minuti."]
+        },
+        { 
+          id: 20, nome: "Tortino di pesce e patate", 
+          ingredienti: [
+            { nome: "Filetti di pesce bianco", dose: 300, unita: "g" },
+            { nome: "Patate", dose: 300, unita: "g" },
+            { nome: "Olio EVO", dose: 15, unita: "ml" }
+          ], 
+          tempo: "30 min", metodo: "♨️ Forno", 
+          prep: null,
+          procedimento: ["Affetta finissimamente le patate.", "In una teglia alterna strati di patate e filetti di pesce conditi con olio, sale ed erbe.", "Inforna a 190°C per 25-30 minuti finché le patate non sono dorate."]
+        },
+        { 
+          id: 21, nome: "Polpettone di tonno", 
+          ingredienti: [
+            { nome: "Tonno sott'olio sgocciolato", dose: 200, unita: "g" },
+            { nome: "Uova", dose: 2, unita: "pz" },
+            { nome: "Pan grattato", dose: 50, unita: "g" },
+            { nome: "Parmigiano", dose: 30, unita: "g" }
+          ], 
+          tempo: "25 min", metodo: "🍳 Padella", 
+          prep: "Cuocilo interamente la domenica: è squisito servito freddo a fette durante la settimana.",
+          procedimento: ["Sgocciola il tonno e mescolalo con uova, parmigiano, capperi tritati e pan grattato.", "Forma un polpettone, avvolgilo in carta forno o panno e cuocilo in acqua bollente per 20 min o in padella.", "Fai raffreddare e taglia a fette."]
+        },
+        { 
+          id: 22, nome: "Seppie con piselli", 
+          ingredienti: [
+            { nome: "Seppie pulite", dose: 350, unita: "g" },
+            { nome: "Piselli", dose: 200, unita: "g" },
+            { nome: "Passata di pomodoro", dose: 150, unita: "g" },
+            { nome: "Vino bianco", dose: 40, unita: "ml" }
+          ], 
+          tempo: "30 min", metodo: "🍳 Padella", 
+          prep: "Cuoci l'intero piatto in anticipo: riscaldato è ancora più saporito.",
+          procedimento: ["Taglia le seppie a listarelle e rosolale in padella con olio.", "Sfuma con il vino bianco, poi unisci la passata e i piselli.", "Cuoci a fuoco basso coperto per 25 minuti."]
+        },
+        { 
+          id: 23, nome: "Fake pizza", 
+          ingredienti: [
+            { nome: "Piadina", dose: 2, unita: "pz" },
+            { nome: "Passata di pomodoro", dose: 100, unita: "g" },
+            { nome: "Mozzarella", dose: 125, unita: "g" },
+            { nome: "Origano", dose: 1, unita: "q.b." }
+          ], 
+          tempo: "10 min", metodo: "♨️ Forno / Air Fryer", 
+          prep: null,
+          procedimento: ["Usa la piadina come base.", "Spalma la passata di pomodoro, aggiungi mozzarella a cubetti e origano.", "Metti in forno ventilato o air fryer a 200°C per 5 minuti finché la mozzarella non fonde."]
+        },
+        { 
+          id: 24, nome: "Piadina fatta in casa", 
+          ingredienti: [
+            { nome: "Farina", dose: 200, unita: "g" },
+            { nome: "Acqua", dose: 100, unita: "ml" },
+            { nome: "Olio EVO", dose: 20, unita: "ml" }
+          ], 
+          tempo: "20 min", metodo: "🍳 Padella", 
+          prep: "Stendi e cuoci le piadine in anticipo: si conservano benissimo 3-4 giorni avvolte.",
+          procedimento: ["Impasta farina, acqua, olio e un pizzico di bicarbonato e sale.", "Dividi in panetti e stendi in dischi sottili.", "Cuoci in padella antiaderente ben calda 1-2 minuti per lato."]
+        },
+        { 
+          id: 25, nome: "Farinata di ceci", 
+          ingredienti: [
+            { nome: "Farina di ceci", dose: 150, unita: "g" },
+            { nome: "Acqua", dose: 450, unita: "ml" },
+            { nome: "Olio EVO", dose: 30, unita: "ml" }
+          ], 
+          tempo: "25 min", metodo: "♨️ Forno", 
+          prep: "Puoi cuocerla in anticipo e scaldarla in padella all'occorrenza.",
+          procedimento: ["Mescola farina di ceci e acqua eliminando la schiuma in superficie.", "Lascia riposare qualche ora, poi aggiungi olio e sale.", "Versa in una teglia unta e inforna alla massima temperatura per 20 minuti."]
+        },
+        { 
+          id: 26, nome: "Focaccia di patate dolci", 
+          ingredienti: [
+            { nome: "Patate dolci lesse", dose: 250, unita: "g" },
+            { nome: "Farina", dose: 200, unita: "g" },
+            { nome: "Lievito di birra fresco", dose: 10, unita: "g" },
+            { nome: "Olio EVO", dose: 20, unita: "ml" }
+          ], 
+          tempo: "35 min", metodo: "♨️ Forno", 
+          prep: "Lessa e schiaccia le patate dolci in anticipo.",
+          procedimento: ["Mescola le patate dolci schiacciate con farina, olio e lievito.", "Stendi nella teglia e lascia lievitare 30 min.", "Inforna a 180°C per 25 minuti."]
+        },
+        { 
+          id: 27, nome: "Crackers ai semi", 
+          ingredienti: [
+            { nome: "Farina", dose: 150, unita: "g" },
+            { nome: "Semi misti", dose: 50, unita: "g" },
+            { nome: "Acqua", dose: 80, unita: "ml" },
+            { nome: "Olio EVO", dose: 25, unita: "ml" }
+          ], 
+          tempo: "20 min", metodo: "♨️ Forno", 
+          prep: "Prepara una teglia intera di crackers: durano croccanti fino a 2 settimane in un barattolo.",
+          procedimento: ["Impasta farina, semi, acqua, olio e sale.", "Stendi sottilissimo su carta forno.", "Taglia a rettangoli e inforna a 180°C per 15 minuti."]
+        },
+        { 
+          id: 28, nome: "Curry di ceci e zucca", 
+          ingredienti: [
+            { nome: "Ceci cotti", dose: 250, unita: "g" },
+            { nome: "Zucca", dose: 250, unita: "g" },
+            { nome: "Latte di cocco", dose: 200, unita: "ml" },
+            { nome: "Cipolla", dose: 0.5, unita: "pz" }
+          ], 
+          tempo: "25 min", metodo: "🍳 Padella", 
+          prep: "Prepara l'intero curry in anticipo: conservato in frigo diventa ancora più gustoso.",
+          procedimento: ["Soffriggi la cipolla con il curry in polvere.", "Aggiungi la zucca a cubetti e dopo pochi minuti il latte di cocco e i ceci.", "Lascia sobbollire per 15-20 minuti finché la zucca non è tenera."]
+        },
+        { 
+          id: 29, nome: "Pasta pesto avocado e basilico", 
+          ingredienti: [
+            { nome: "Pasta", dose: 160, unita: "g" },
+            { nome: "Avocado maturo", dose: 1, unita: "pz" },
+            { nome: "Basilico", dose: 15, unita: "foglie" },
+            { nome: "Pinoli", dose: 15, unita: "g" }
+          ], 
+          tempo: "12 min", metodo: "🍳 Padella", 
+          prep: null,
+          procedimento: ["Frulla l'avocado con basilico, limone, pinoli e olio.", "Cuoci la pasta in abbondante acqua salata.", "Scola la pasta e mantecala a freddo con il pesto pronto."]
+        }
+      ],
+      salvaimprevisti: [
+        {
+          id: 101, nome: "Pasta al tonno e limone",
+          ingredienti: [
+            { nome: "Pasta", dose: 160, unita: "g" },
+            { nome: "Tonno in scatola", dose: 160, unita: "g" },
+            { nome: "Limone", dose: 1, unita: "pz" },
+            { nome: "Olio EVO", dose: 15, unita: "ml" }
+          ],
+          tempo: "10 min", metodo: "🍳 Fast",
+          procedimento: ["Cuoci la pasta.", "Sgocciola il tonno e condiscilo con buccia e succo di limone e olio.", "Scola la pasta e salta insieme al tonno."]
+        },
+        {
+          id: 102, nome: "Uova al tegamino con crostini",
+          ingredienti: [
+            { nome: "Uova", dose: 4, unita: "pz" },
+            { nome: "Pane", dose: 100, unita: "g" },
+            { nome: "Olio EVO", dose: 10, unita: "ml" }
+          ],
+          tempo: "5 min", metodo: "🍳 Fast",
+          procedimento: ["Tosta le fette di pane.", "Scalda l'olio in padella e rompi le uova.", "Cuoci a fuoco medio finché l'albume si assoda ma il tuorlo resta morbido."]
+        },
+        {
+          id: 103, nome: "Ceci in umido veloci",
+          ingredienti: [
+            { nome: "Ceci in scatola", dose: 240, unita: "g" },
+            { nome: "Passata di pomodoro", dose: 150, unita: "g" },
+            { nome: "Aglio", dose: 1, unita: "spicchio" },
+            { nome: "Rosmarino", dose: 1, unita: "rametto" }
+          ],
+          tempo: "10 min", metodo: "🍳 Fast",
+          procedimento: ["Soffriggi aglio e rosmarino.", "Aggiungi la passata e i ceci sciacquati.", "Cuoci a fuoco vivo per 8-10 minuti."]
+        }
+      ],
+      colazioni: [
+        {
+          id: 201, nome: "Colazione ricca di fibre",
+          ingredienti: [{ nome: "Fiocchi d'avena", dose: 60, unita: "g" }, { nome: "Semi di chia", dose: 10, unita: "g" }, { nome: "Frutti di bosco", dose: 80, unita: "g" }, { nome: "Latte di mandorla", dose: 150, unita: "ml" }],
+          tempo: "5 min", metodo: "🥣 Zdrowy / Senza cottura",
+          procedimento: ["Unisci i fiocchi d'avena e i semi di chia in una ciotola.", "Versa il latte di mandorla e lascia riposare qualche minuto.", "Completa con i frutti di bosco freschi."]
+        },
+        {
+          id: 202, nome: "Mini cheesecake ai lamponi",
+          ingredienti: [{ nome: "Biscotti secchi", dose: 40, unita: "g" }, { nome: "Yogurt greco", dose: 150, unita: "g" }, { nome: "Lamponi", dose: 60, unita: "g" }, { nome: "Miele", dose: 10, unita: "g" }],
+          tempo: "15 min", metodo: "❄️ Frigo",
+          prep: "Puoi prepararle nei pirottini da muffin il giorno prima.",
+          procedimento: ["Schiaccia i biscotti sul fondo dei pirottini.", "Mescola lo yogurt con il miele e distribuisci sui biscotti.", "Decora con lamponi e metti in frigo per 2 ore."]
+        },
+        {
+          id: 203, nome: "Crostata ai mirtilli",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Marmellata di mirtilli", dose: 120, unita: "g" }, { nome: "Olio di cocco", dose: 30, unita: "g" }, { nome: "Mirtilli freschi", dose: 50, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          prep: "Prepara la crostata la domenica per averla pronta per più colazioni.",
+          procedimento: ["Prepara una frolla leggera con farina, olio e poca acqua.", "Stendi la base, versa la marmellata e decora con mirtilli freschi.", "Inforna a 180°C per 25-30 minuti."]
+        },
+        {
+          id: 204, nome: "Granola in friggitrice ad aria",
+          ingredienti: [{ nome: "Fiocchi d'avena", dose: 100, unita: "g" }, { nome: "Frutta secca mista", dose: 40, unita: "g" }, { nome: "Sciroppo d'acero", dose: 25, unita: "g" }, { nome: "Olio EVO", dose: 10, unita: "ml" }],
+          tempo: "12 min", metodo: "🌀 Air Fryer",
+          prep: "Conserva in un vaso ermetico per 10-15 giorni.",
+          procedimento: ["Mescola tutti gli ingredienti in una ciotola.", "Versa nel cestello dell'Air Fryer su carta forno.", "Cuoci a 160°C per 10 minuti mescolando a metà cottura."]
+        },
+        {
+          id: 205, nome: "Pancake con mirtilli e lamponi",
+          ingredienti: [{ nome: "Farina d'avena", dose: 80, unita: "g" }, { nome: "Albume", dose: 100, unita: "ml" }, { nome: "Yogurt", dose: 50, unita: "g" }, { nome: "Mirtilli e Lamponi", dose: 50, unita: "g" }],
+          tempo: "10 min", metodo: "🍳 Padella",
+          procedimento: ["Mescola farina, albume e yogurt con una frusta.", "Versa a mestoli in una padella ben calda.", "Aggiungi i frutti di bosco sulla superficie durante la cottura e gira."]
+        },
+        {
+          id: 206, nome: "Fiocchi alle mandorle",
+          ingredienti: [{ nome: "Farina di mandorle", dose: 50, unita: "g" }, { nome: "Fiocchi d'avena", dose: 50, unita: "g" }, { nome: "Miele", dose: 15, unita: "g" }, { nome: "Mandorle a scaglie", dose: 15, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Mescola mandorle, avena e miele.", "Tosta in forno a 170°C per 10 minuti fino a croccantezza."]
+        },
+        {
+          id: 207, nome: "Margheritine",
+          ingredienti: [{ nome: "Farina 00", dose: 150, unita: "g" }, { nome: "Zucchero a velo", dose: 40, unita: "g" }, { nome: "Burro", dose: 50, unita: "g" }, { nome: "Tuorlo d'uovo", dose: 1, unita: "pz" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Lavora farina, burro e zucchero prima di unire il tuorlo.", "Crea dei biscottini a forma di margherita e inforna a 180°C per 12 minuti."]
+        },
+        {
+          id: 208, nome: "Lazy girl matcha latte",
+          ingredienti: [{ nome: "Polvere Matcha", dose: 3, unita: "g" }, { nome: "Latte vegetale", dose: 200, unita: "ml" }, { nome: "Acqua calda", dose: 30, unita: "ml" }, { nome: "Miele", dose: 10, unita: "g" }],
+          tempo: "3 min", metodo: "🥤 Bicchieri",
+          procedimento: ["Sciogli il matcha nell'acqua calda mescolando bene.", "Monta il latte vegetale caldo o freddo e uniscilo al matcha dolcificato."]
+        },
+        {
+          id: 209, nome: "Cookies al banana bread",
+          ingredienti: [{ nome: "Banana matura", dose: 1, unita: "pz" }, { nome: "Fiocchi d'avena", dose: 80, unita: "g" }, { nome: "Gocce di cioccolato", dose: 25, unita: "g" }, { nome: "Burro d'arachidi", dose: 20, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno / Air Fryer",
+          procedimento: ["Schiaccia la banana con la forchetta.", "Unisci l'avena, il burro d'arachidi e le gocce di cioccolato.", "Forma dei biscotti e cuoci a 180°C per 12 minuti."]
+        },
+        {
+          id: 210, nome: "Chia pudding al matcha e pistacchio",
+          ingredienti: [{ nome: "Semi di chia", dose: 25, unita: "g" }, { nome: "Latte di mandorla", dose: 120, unita: "ml" }, { nome: "Matcha", dose: 2, unita: "g" }, { nome: "Crema di pistacchio", dose: 15, unita: "g" }],
+          tempo: "5 min", metodo: "❄️ Frigo",
+          prep: "Da preparare assolutamente la sera prima.",
+          procedimento: ["Mescola la chia con matcha e latte in un bicchiere.", "Lascia in frigo tutta la notte e completa al mattino con crema di pistacchio."]
+        },
+        {
+          id: 211, nome: "Mini torte di mele",
+          ingredienti: [{ nome: "Mele", dose: 1, unita: "pz" }, { nome: "Farina", dose: 100, unita: "g" }, { nome: "Yogurt", dose: 50, unita: "g" }, { nome: "Cannella", dose: 1, unita: "q.b." }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Taglia le mele a dadini condendole con la cannella.", "Prepara un impasto morbido con farina e yogurt, unisci le mele.", "Dividi in stampini e inforna a 180°C per 18 minuti."]
+        },
+        {
+          id: 212, nome: "Viral tiramisù",
+          ingredienti: [{ nome: "Fette biscottate integrali", dose: 4, unita: "pz" }, { nome: "Caffè espresso", dose: 100, unita: "ml" }, { nome: "Yogurt greco", dose: 150, unita: "g" }, { nome: "Cacao amaro", dose: 5, unita: "g" }],
+          tempo: "10 min", metodo: "❄️ Frigo",
+          procedimento: ["Inzuppa le fette biscottate nel caffè.", "Alterna strati di fette biscottate e yogurt greco.", "Spolvera di cacao e metti in frigo per un paio d'ore."]
+        },
+        {
+          id: 213, nome: "Pancake con purea di caco",
+          ingredienti: [{ nome: "Farina d'avena", dose: 70, unita: "g" }, { nome: "Caco maturo", dose: 1, unita: "pz" }, { nome: "Uova", dose: 1, unita: "pz" }, { nome: "Latte", dose: 30, unita: "ml" }],
+          tempo: "12 min", metodo: "🍳 Padella",
+          procedimento: ["Prepara i pancake con farina, uovo e latte.", "Frulla la polpa del caco fino a renderla una crema e versala sui pancake caldi."]
+        },
+        {
+          id: 214, nome: "Fiocchi di neve",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Ricotta", dose: 100, unita: "g" }, { nome: "Panna montata", dose: 50, unita: "ml" }, { nome: "Zucchero a velo", dose: 30, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Crea delle briochine soffici e infornale.", "Una volta fredde, farciscile con una crema soffice di ricotta e panna."]
+        },
+        {
+          id: 215, nome: "Strudel cookies",
+          ingredienti: [{ nome: "Pasta frolla", dose: 100, unita: "g" }, { nome: "Mele a cubetti", dose: 80, unita: "g" }, { nome: "Uvetta e pinoli", dose: 20, unita: "g" }, { nome: "Cannella", dose: 1, unita: "q.b." }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Farcisci piccoli dischi di frolla con il ripieno classico dello strudel.", "Chiudi e cuoci in forno a 180°C per 15 minuti."]
+        },
+        {
+          id: 216, nome: "Panettone veloce casalingo",
+          ingredienti: [{ nome: "Farina Manitoba", dose: 200, unita: "g" }, { nome: "Uvetta e canditi", dose: 50, unita: "g" }, { nome: "Lievito", dose: 7, unita: "g" }, { nome: "Burro", dose: 40, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Lavora l'impasto lievitato incorporando burro e frutta secca.", "Cuoci nello stampo alto fino a doratura."]
+        },
+        {
+          id: 217, nome: "Alberelli di sfoglia",
+          ingredienti: [{ nome: "Pasta sfoglia", dose: 1, unita: "rotolo" }, { nome: "Crema alle nocciole", dose: 80, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Spalma la crema di nocciole, ripiega a ziz-zag su uno stecchino creando un alberello.", "Inforna a 200°C per 12 minuti."]
+        },
+        {
+          id: 218, nome: "Torta cappuccina",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Caffè espresso", dose: 80, unita: "ml" }, { nome: "Cacao", dose: 20, unita: "g" }, { nome: "Yogurt", dose: 100, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Unisci gli ingredienti umidi e secchi profumando con caffè.", "Inforna a 180°C per 30 minuti."]
+        },
+        {
+          id: 219, nome: "Mini pumpkin pies",
+          ingredienti: [{ nome: "Pasta brisée", dose: 1, unita: "rotolo" }, { nome: "Purea di zucca", dose: 150, unita: "g" }, { nome: "Spezie pumpkin pie", dose: 1, unita: "q.b." }, { nome: "Sciroppo d'acero", dose: 20, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Riempi gli stampini da tartelletta con il composto di zucca e spezie.", "Inforna a 180°C per 20 minuti."]
+        },
+        {
+          id: 220, nome: "Torta soffice alle mele",
+          ingredienti: [{ nome: "Farina", dose: 200, unita: "g" }, { nome: "Mele", dose: 2, unita: "pz" }, { nome: "Uova", dose: 2, unita: "pz" }, { nome: "Zucchero", dose: 80, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Monta le uova con lo zucchero, unisci farina e mele a fette.", "Inforna a 180°C per 35 minuti."]
+        },
+        {
+          id: 221, nome: "Pancake alla zucca",
+          ingredienti: [{ nome: "Purea di zucca", dose: 80, unita: "g" }, { nome: "Farina d'avena", dose: 70, unita: "g" }, { nome: "Latte", dose: 50, unita: "ml" }, { nome: "Cannella", dose: 1, unita: "q.b." }],
+          tempo: "10 min", metodo: "🍳 Padella",
+          procedimento: ["Mescola la zucca cotta con la farina e il latte.", "Cuoci a cucchiai in padella per 2-3 minuti per lato."]
+        },
+        {
+          id: 222, nome: "Briochine intrecciate",
+          ingredienti: [{ nome: "Pasta brioche", dose: 200, unita: "g" }, { nome: "Zucchero granella", dose: 15, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Crea delle treccine con l'impasto brioche.", "Cospargi di granella e cuoci in forno a 180°C per 15 minuti."]
+        },
+        {
+          id: 223, nome: "Le crêpes perfette",
+          ingredienti: [{ nome: "Farina", dose: 100, unita: "g" }, { nome: "Latte", dose: 200, unita: "ml" }, { nome: "Uova", dose: 1, unita: "pz" }],
+          tempo: "15 min", metodo: "🍳 Padella",
+          procedimento: ["Lavora gli ingredienti con una frusta per evitare grumi.", "Versa un mestolino in padella antiaderente e cuoci 1 min per lato."]
+        },
+        {
+          id: 224, nome: "Cremoso al caffè",
+          ingredienti: [{ nome: "Caffè solubile", dose: 15, unita: "g" }, { nome: "Acqua fredda", dose: 50, unita: "ml" }, { nome: "Zucchero", dose: 20, unita: "g" }, { nome: "Yogurt", dose: 100, unita: "g" }],
+          tempo: "5 min", metodo: "🥤 Bicchieri",
+          procedimento: ["Monta caffè solubile, zucchero e acqua ghiacciata con le fruste finché spumoso.", "Servi su un letto di yogurt."]
+        },
+        {
+          id: 225, nome: "Galette di pesche",
+          ingredienti: [{ nome: "Pasta brisée integrali", dose: 1, unita: "rotolo" }, { nome: "Pesche", dose: 2, unita: "pz" }, { nome: "Miele", dose: 15, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Disponi le pesche a fette al centro della pasta sfoglia o brisée e ripiega i bordi.", "Inforna a 190°C per 25 minuti."]
+        },
+        {
+          id: 226, nome: "Panna cotta alle albicocche",
+          ingredienti: [{ nome: "Panna liquida o vegetale", dose: 150, unita: "ml" }, { nome: "Purea di albicocche", dose: 80, unita: "g" }, { nome: "Gelatina", dose: 2, unita: "fogli" }],
+          tempo: "15 min", metodo: "❄️ Frigo",
+          procedimento: ["Scalda la panna con lo zucchero e unisci la gelatina ammollata.", "Versa nei bicchierini e top con purea di albicocche fresca."]
+        },
+        {
+          id: 227, nome: "Biscottini con la marmellata",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Marmellata a scelta", dose: 60, unita: "g" }, { nome: "Burro", dose: 40, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Forma delle palline di frolla, crea un incavo al centro con il dito e riempi di marmellata.", "Inforna a 180°C per 12 minuti."]
+        },
+        {
+          id: 228, nome: "Fiori soffici alla marmellata",
+          ingredienti: [{ nome: "Impasto brioche", dose: 200, unita: "g" }, { nome: "Marmellata", dose: 60, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Modella l'impasto a forma di fiore inserendo la marmellata al centro.", "Inforna a 180°C per 15 minuti."]
+        },
+        {
+          id: 229, nome: "Torta foresta nera",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Cacao amaro", dose: 30, unita: "g" }, { nome: "Ciliegie", dose: 100, unita: "g" }, { nome: "Panna", dose: 100, unita: "ml" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Prepara la base al cacao, cuocila e guarnisci con panna e ciliegie fresche."]
+        },
+        {
+          id: 230, nome: "Panini soffici alle fragole",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Fragole a pezzetti", dose: 80, unita: "g" }, { nome: "Latte", dose: 80, unita: "ml" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Aggiungi le fragole fresche all'impasto per panini dolci.", "Cuoci a 180°C per 18 minuti."]
+        },
+        {
+          id: 231, nome: "Crostata di fragole",
+          ingredienti: [{ nome: "Pasta frolla", dose: 1, unita: "panetto" }, { nome: "Fragole fresche", dose: 200, unita: "g" }, { nome: "Crema", dose: 150, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Cuoci la base di frolla in bianco.", "Farcisci con crema e disponi le fragole fresche tagliate in modo scenografico."]
+        },
+        {
+          id: 232, nome: "Treccine alla cannella",
+          ingredienti: [{ nome: "Pasta sfoglia", dose: 1, unita: "rotolo" }, { nome: "Zucchero di canna", dose: 30, unita: "g" }, { nome: "Cannella", dose: 1, unita: "cucchiaio" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Cospergi la sfoglia con zucchero e cannella, intreccia e inforna a 200°C per 12 minuti."]
+        },
+        {
+          id: 233, nome: "Mini prussiane",
+          ingredienti: [{ nome: "Pasta sfoglia", dose: 1, unita: "rotolo" }, { nome: "Zucchero", dose: 40, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Arrotola la sfoglia zuccherata dai due lati verso il centro, taglia a fettine e inforna a 200°C per 10 minuti."]
+        },
+        {
+          id: 234, nome: "Torta sbrisolona pere e cioccolato",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Pere", dose: 1, unita: "pz" }, { nome: "Gocce di cioccolato", dose: 40, unita: "g" }, { nome: "Burro", dose: 50, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Crea un impasto bricioloso, alterna briciole, pere a cubetti e cioccolato.", "Inforna a 180°C per 30 minuti."]
+        },
+        {
+          id: 235, nome: "Galette di mele",
+          ingredienti: [{ nome: "Pasta brisée", dose: 1, unita: "rotolo" }, { nome: "Mele", dose: 2, unita: "pz" }, { nome: "Cannella", dose: 1, unita: "q.b." }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Disponi le mele a raggiera sulla sfoglia, ripiega i bordi e cuoci a 190°C per 25 min."]
+        },
+        {
+          id: 236, nome: "Torta brigadeiro",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Cacao", dose: 40, unita: "g" }, { nome: "Latte condensato", dose: 100, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Cuoci la torta soffice al cioccolato e ricoprila con crema di latte condensato e cacao."]
+        },
+        {
+          id: 237, nome: "Chai banana bread",
+          ingredienti: [{ nome: "Banane mature", dose: 2, unita: "pz" }, { nome: "Farina", dose: 180, unita: "g" }, { nome: "Spezie chai (cannella, cardamomo, chiodi di garofano)", dose: 1, unita: "q.b." }],
+          tempo: "45 min", metodo: "♨️ Forno",
+          prep: "Ottimo da preparare per tutta la settimana.",
+          procedimento: ["Schiaccia le banane e mescolale con farina, olio e spezie chai.", "Cuoci in stampo da plumcake a 180°C per 40 minuti."]
+        },
+        {
+          id: 238, nome: "Porridge di mele",
+          ingredienti: [{ nome: "Fiocchi d'avena", dose: 60, unita: "g" }, { nome: "Mela a cubetti", dose: 1, unita: "pz" }, { nome: "Latte", dose: 200, unita: "ml" }, { nome: "Cannella", dose: 1, unita: "q.b." }],
+          tempo: "8 min", metodo: "🍳 Padella",
+          procedimento: ["Cuoci l'avena nel latte insieme alla mela e cannella finché diventa cremoso."]
+        },
+        {
+          id: 239, nome: "Pandoro 100% vegetale",
+          ingredienti: [{ nome: "Farina Manitoba", dose: 200, unita: "g" }, { nome: "Burro di cocco o margherita veg", dose: 50, unita: "g" }, { nome: "Zucchero a velo", dose: 40, unita: "g" }],
+          tempo: "50 min", metodo: "♨️ Forno",
+          procedimento: ["Impasta gli ingredienti vegetali e cuoci nello stampo da pandoro."]
+        },
+        {
+          id: 240, nome: "Crostata ai kiwi",
+          ingredienti: [{ nome: "Base frolla", dose: 1, unita: "pz" }, { nome: "Kiwi a fette", dose: 3, unita: "pz" }, { nome: "Crema spalmabile o yogurt", dose: 100, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Cuoci la base e guarnisci con strati di kiwi freschi tagliati sottili."]
+        },
+        {
+          id: 241, nome: "Bastoncini di Natale",
+          ingredienti: [{ nome: "Pasta frolla bicolore (bianca e vaniglia/cacao)", dose: 150, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Intreccia i due cordoncini di pasta frolla e piega la punta formando il bastoncino. Inforna a 180°C per 12 min."]
+        },
+        {
+          id: 242, nome: "Crumble di mele",
+          ingredienti: [{ nome: "Mele", dose: 2, unita: "pz" }, { nome: "Farina", dose: 60, unita: "g" }, { nome: "Burro", dose: 30, unita: "g" }, { nome: "Zucchero", dose: 20, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Copri le mele a cubetti con le briciole d'impasto e inforna fino a croccantezza."]
+        },
+        {
+          id: 243, nome: "Roselline alla nocciolata",
+          ingredienti: [{ nome: "Pasta sfoglia", dose: 1, unita: "rotolo" }, { nome: "Crema nocciole", dose: 60, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Taglia strisce di sfoglia, spalmale di nocciolata, arrotola a rosa e inforna a 190°C."]
+        },
+        {
+          id: 244, nome: "Cookies di Taylor Swift",
+          ingredienti: [{ nome: "Farina", dose: 120, unita: "g" }, { nome: "Burro", dose: 40, unita: "g" }, { nome: "Spezie chai e glassa al limone", dose: 1, unita: "q.b." }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Prepara biscotti speziati chai e decora con glassa soffice."]
+        },
+        {
+          id: 245, nome: "Frittelle di Halloween",
+          ingredienti: [{ nome: "Purea di zucca", dose: 100, unita: "g" }, { nome: "Farina", dose: 80, unita: "g" }, { nome: "Zucchero", dose: 20, unita: "g" }],
+          tempo: "15 min", metodo: "🍳 Padella",
+          procedimento: ["Mescola gli ingredienti e friggi o cuoci in padella a frittelle d'orate."]
+        },
+        {
+          id: 246, nome: "Torta di carote e nocciole",
+          ingredienti: [{ nome: "Carote grattugiate", dose: 150, unita: "g" }, { nome: "Farina di nocciole", dose: 60, unita: "g" }, { nome: "Farina", dose: 100, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Unisci carote e nocciole all'impasto e cuoci a 180°C per 35 minuti."]
+        },
+        {
+          id: 247, nome: "Banana rolls",
+          ingredienti: [{ nome: "Pane per tramezzini", dose: 2, unita: "fette" }, { nome: "Banana", dose: 1, unita: "pz" }, { nome: "Burro d'arachidi", dose: 20, unita: "g" }],
+          tempo: "8 min", metodo: "🍳 Padella",
+          procedimento: ["Stendi il pane con il mattarello, spalma il burro d'arachidi, avvolgi la banana e rosola in padella."]
+        },
+        {
+          id: 248, nome: "Cinnamon rolls al caffè",
+          ingredienti: [{ nome: "Impasto lievitato", dose: 200, unita: "g" }, { nome: "Cannella e Zucchero", dose: 20, unita: "g" }, { nome: "Caffè espresso per la glassa", dose: 20, unita: "ml" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Arrotola l'impasto con la cannella, taglia le girelle, inforna e glassa col caffè."]
+        },
+        {
+          id: 249, nome: "Cookies zucca e cioccolato",
+          ingredienti: [{ nome: "Purea di zucca", dose: 60, unita: "g" }, { nome: "Farina", dose: 100, unita: "g" }, { nome: "Gocce di cioccolato", dose: 30, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Mescola la zucca con farina e gocce di cioccolato. Cuoci i biscotti a 180°C per 12 minuti."]
+        },
+        {
+          id: 250, nome: "Banana bread in tazza",
+          ingredienti: [{ nome: "Banana schiacciata", dose: 0.5, unita: "pz" }, { nome: "Farina d'avena", dose: 30, unita: "g" }, { nome: "Latte", dose: 30, unita: "ml" }, { nome: "Gocce di cioccolato", dose: 10, unita: "g" }],
+          tempo: "3 min", metodo: "⚡ Microonde",
+          procedimento: ["Mescola tutto in una tazza e cuoci in microonde a max potenza per 90 secondi."]
+        },
+        {
+          id: 251, nome: "Clafoutis alle pesche",
+          ingredienti: [{ nome: "Pesche", dose: 2, unita: "pz" }, { nome: "Uova", dose: 2, unita: "pz" }, { nome: "Latte", dose: 100, unita: "ml" }, { nome: "Farina", dose: 40, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Disponi le pesche in una pirofila, versa la pastella ottenuta con gli altri ingredienti e inforna a 180°C per 25 min."]
+        },
+        {
+          id: 252, nome: "Ciambelle soffici",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Yogurt", dose: 100, unita: "g" }, { nome: "Zucchero", dose: 50, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Crea ciambelline dolci e cuoci in forno negli stampi per 15 minuti."]
+        },
+        {
+          id: 253, nome: "Torta ai mirtilli",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Mirtilli freschi", dose: 100, unita: "g" }, { nome: "Yogurt", dose: 100, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Unisci i mirtilli freschi all'impasto e inforna a 180°C per 30 minuti."]
+        },
+        {
+          id: 254, nome: "Plumcake yogurt e frutta",
+          ingredienti: [{ nome: "Farina", dose: 200, unita: "g" }, { nome: "Yogurt naturale", dose: 125, unita: "g" }, { nome: "Frutta a pezzetti", dose: 100, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Amalgama gli ingredienti e versa in uno stampo da plumcake. Inforna a 180°C per 35 minuti."]
+        },
+        {
+          id: 255, nome: "Bicchierini cocco e lamponi",
+          ingredienti: [{ nome: "Yogurt al cocco", dose: 150, unita: "g" }, { nome: "Lamponi", dose: 60, unita: "g" }, { nome: "Scaglie di cocco", dose: 10, unita: "g" }],
+          tempo: "5 min", metodo: "🥤 Bicchieri",
+          procedimento: ["Alterna nel bicchiere strati di yogurt al cocco, lamponi e scaglie croccanti."]
+        },
+        {
+          id: 256, nome: "Saccottini super soffici e ripieni",
+          ingredienti: [{ nome: "Pasta brioche", dose: 150, unita: "g" }, { nome: "Cioccolato", dose: 40, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Avvolgi le barrette di cioccolato nella pasta brioche e cuoci in forno a 180°C per 15 minuti."]
+        },
+        {
+          id: 257, nome: "Cherry pie",
+          ingredienti: [{ nome: "Pasta frolla", dose: 1, unita: "rotolo" }, { nome: "Ciliegie denocciolate", dose: 200, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Farcisci la torta con la compota di ciliegie e crea la griglia superiore prima di infornare."]
+        },
+        {
+          id: 258, nome: "Girelle pistacchi e lamponi",
+          ingredienti: [{ nome: "Pasta sfoglia", dose: 1, unita: "rotolo" }, { nome: "Crema di pistacchio", dose: 50, unita: "g" }, { nome: "Lamponi", dose: 40, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Spalma la crema, aggiungi i lamponi, arrotola, taglia a girelle e inforna a 190°C."]
+        },
+        {
+          id: 259, nome: "Pan brioche",
+          ingredienti: [{ nome: "Farina Manitoba", dose: 250, unita: "g" }, { nome: "Latte", dose: 100, unita: "ml" }, { nome: "Burro", dose: 40, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          prep: "Soffice per diversi giorni, ideale da affettare.",
+          procedimento: ["Impasta e fai lievitare fino al raddoppio, cuoci in stampo a 180°C per 30 min."]
+        },
+        {
+          id: 260, nome: "Torta soffice alle fragole",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Fragole", dose: 120, unita: "g" }, { nome: "Yogurt", dose: 100, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Incorpora le fragole tagliate all'impasto e cuoci a 180°C per 30 min."]
+        },
+        {
+          id: 261, nome: "Pasticcini alla frutta con crema pasticcera",
+          ingredienti: [{ nome: "Tartellette di frolla", dose: 4, unita: "pz" }, { nome: "Crema pasticcera", dose: 100, unita: "g" }, { nome: "Frutta mista", dose: 60, unita: "g" }],
+          tempo: "15 min", metodo: "🥧 Dolci",
+          procedimento: ["Riempi i cestini di frolla con la crema e guarnisci con frutta fresca."]
+        },
+        {
+          id: 262, nome: "Cinnamon rolls pere e cioccolato",
+          ingredienti: [{ nome: "Impasto brioche", dose: 200, unita: "g" }, { nome: "Pere a cubetti", dose: 60, unita: "g" }, { nome: "Gocce di cioccolato", dose: 30, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Farcisci il rotolo con pere, cioccolato e cannella prima di tagliarlo a girelle e cuocerlo."]
+        },
+        {
+          id: 263, nome: "Babka al cioccolato",
+          ingredienti: [{ nome: "Farina", dose: 200, unita: "g" }, { nome: "Crema al cioccolato", dose: 100, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Intreccia l'impasto farcito di cioccolato e inforna a 180°C per 30 minuti."]
+        },
+        {
+          id: 264, nome: "Crema al gusto mascarpone",
+          ingredienti: [{ nome: "Mascarpone", dose: 100, unita: "g" }, { nome: "Panna da montare", dose: 50, unita: "ml" }, { nome: "Zucchero a velo", dose: 20, unita: "g" }],
+          tempo: "5 min", metodo: "🥣 Crema",
+          procedimento: ["Lavora il mascarpone con la panna e lo zucchero fino a ottenere un composto cremoso."]
+        },
+        {
+          id: 265, nome: "Ciambella colle arance",
+          ingredienti: [{ nome: "Farina", dose: 200, unita: "g" }, { nome: "Succo e buccia d'arancia", dose: 1, unita: "pz" }, { nome: "Uova", dose: 2, unita: "pz" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Monta uova e zucchero, unisci succo d'arancia e farina. Cuoci in stampo a ciambella."]
+        },
+        {
+          id: 266, nome: "Flauti fatti in casa",
+          ingredienti: [{ nome: "Impasto soffice", dose: 150, unita: "g" }, { nome: "Crema al latte o cioccolato", dose: 50, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Crea rettangoli d'impasto, farcisci e intaglia la superficie prima di cuocere."]
+        },
+        {
+          id: 267, nome: "Torta zebrata",
+          ingredienti: [{ nome: "Farina", dose: 200, unita: "g" }, { nome: "Cacao amaro", dose: 20, unita: "g" }, { nome: "Latte", dose: 100, unita: "ml" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Alterna cucchiaiate di impasto chiaro e scuro al centro della tortiera prima di infornare."]
+        },
+        {
+          id: 268, nome: "Cookies al burro d'arachidi e cioccolato",
+          ingredienti: [{ nome: "Burro d'arachidi", dose: 60, unita: "g" }, { nome: "Farina", dose: 80, unita: "g" }, { nome: "Gocce di cioccolato", dose: 30, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Impasta gli ingredienti, crea delle palline e appiattiscile prima di infornare per 10 min."]
+        },
+        {
+          id: 269, nome: "Maritozzi",
+          ingredienti: [{ nome: "Farina Manitoba", dose: 180, unita: "g" }, { nome: "Panna montata", dose: 100, unita: "ml" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Prepara e cuoci i panini dolci soffici, aprilo al centro e farcisci abbondantemente con panna."]
+        },
+        {
+          id: 270, nome: "Torta soffice ai mirtilli",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Mirtilli", dose: 100, unita: "g" }, { nome: "Burro", dose: 40, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Mescola mirtilli e impasto classico soffice per torte e cuoci a 180°C per 30 min."]
+        },
+        {
+          id: 271, nome: "Torta sbrisolona ripiena di nocciolata",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Crema alle nocciole", dose: 100, unita: "g" }, { nome: "Burro", dose: 50, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Crea un doppio strato di briciole con un generoso ripieno di crema di nocciole al centro."]
+        },
+        {
+          id: 272, nome: "Crostata ai frutti di bosco",
+          ingredienti: [{ nome: "Pasta frolla", dose: 1, unita: "rotolo" }, { nome: "Marmellata di frutti di bosco", dose: 120, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Stendi la frolla, aggiungi la marmellata e decora con la classica griglia di pasta."]
+        },
+        {
+          id: 273, nome: "Torta soffice ai lamponi",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Lamponi", dose: 100, unita: "g" }, { nome: "Yogurt", dose: 80, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Versa i lamponi freschi nell'impasto e cuoci a 180°C per 30 min."]
+        },
+        {
+          id: 274, nome: "Torta paesana",
+          ingredienti: [{ nome: "Pane raffermo", dose: 100, unita: "g" }, { nome: "Latte", dose: 250, unita: "ml" }, { nome: "Cacao", dose: 20, unita: "g" }, { nome: "Uvetta", dose: 30, unita: "g" }],
+          tempo: "45 min", metodo: "♨️ Forno",
+          procedimento: ["Ammolla il pane nel latte, frulla con cacao e uvetta e inforna a 180°C per 40 min."]
+        },
+        {
+          id: 275, nome: "Crostata vegetale alle pesche",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Olio di semi", dose: 35, unita: "ml" }, { nome: "Pesche", dose: 2, unita: "pz" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Prepara la frolla senza uova né burro e ricoprila con fettine di pesca prima di infornare."]
+        },
+        {
+          id: 276, nome: "Banana bread all'Earl Grey",
+          ingredienti: [{ nome: "Banane mature", dose: 2, unita: "pz" }, { nome: "Tè Earl Grey concentrato", dose: 40, unita: "ml" }, { nome: "Farina", dose: 180, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Aromatizza l'impasto del banana bread con l'infuso concentrato di tè Earl Grey prima di cuocere."]
+        },
+        {
+          id: 277, nome: "Sbriciolata alle mele",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Mele a cubetti", dose: 2, unita: "pz" }, { nome: "Burro", dose: 40, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Cuoci il composto sbriciolato farcito con mele profumate alla cannella."]
+        },
+        {
+          id: 278, nome: "Biscotti burro di mandorle e datteri",
+          ingredienti: [{ nome: "Burro di mandorle", dose: 60, unita: "g" }, { nome: "Datteri frullati", dose: 50, unita: "g" }, { nome: "Farina d'avena", dose: 60, unita: "g" }],
+          tempo: "12 min", metodo: "♨️ Forno",
+          procedimento: ["Mescola datteri e burro di mandorle con la farina. Forma i biscotti e cuoci a 170°C per 10 minuti."]
+        },
+        {
+          id: 279, nome: "Dorayaki",
+          ingredienti: [{ nome: "Farina", dose: 100, unita: "g" }, { nome: "Uova", dose: 1, unita: "pz" }, { nome: "Miele", dose: 15, unita: "g" }, { nome: "Crema alle nocciole/Anko", dose: 50, unita: "g" }],
+          tempo: "15 min", metodo: "🍳 Padella",
+          procedimento: ["Cuoci i dischi di pancake in padella e accoppiali farcendoli al centro."]
+        },
+        {
+          id: 280, nome: "Panini morbidi al cioccolato",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Gocce di cioccolato", dose: 40, unita: "g" }, { nome: "Latte", dose: 80, unita: "ml" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Impasta piccoli panini dolci ricchi di gocce di cioccolato e inforna a 180°C."]
+        },
+        {
+          id: 281, nome: "Biscotti pan di zenzero",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Zenzero e Cannella", dose: 1, unita: "q.b." }, { nome: "Miele o Melassa", dose: 30, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Ritaglia le forme tipiche dall'impasto speziato e inforna a 180°C per 10 minuti."]
+        },
+        {
+          id: 282, nome: "Chai latte",
+          ingredienti: [{ nome: "Latte", dose: 200, unita: "ml" }, { nome: "Miscela spezie chai", dose: 1, unita: "q.b." }, { nome: "Tè nero", dose: 1, unita: "bustina" }],
+          tempo: "5 min", metodo: "🥤 Bicchieri",
+          procedimento: ["Infondi le spezie ed il tè nel latte ben caldo montato."]
+        },
+        {
+          id: 283, nome: "Banana bread al cioccolato",
+          ingredienti: [{ nome: "Banane mature", dose: 2, unita: "pz" }, { nome: "Cacao amaro", dose: 25, unita: "g" }, { nome: "Farina", dose: 150, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Aggiungi cacao amaro e gocce di cioccolato al classico banana bread."]
+        },
+        {
+          id: 284, nome: "Brioches vegane",
+          ingredienti: [{ nome: "Farina", dose: 200, unita: "g" }, { nome: "Latte vegetale", dose: 90, unita: "ml" }, { nome: "Olio di semi", dose: 30, unita: "ml" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Crea dei cornetti con l'impasto vegetale e inforna a 180°C per 15 minuti."]
+        },
+        {
+          id: 285, nome: "Mini babka",
+          ingredienti: [{ nome: "Impasto brioche", dose: 100, unita: "g" }, { nome: "Crema cacao", dose: 30, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Prepara monoporzioni di babka intrecciando piccoli rettangoli farciti."]
+        },
+        {
+          id: 286, nome: "Torta soffice alla zucca",
+          ingredienti: [{ nome: "Zucca cruda grattugiata", dose: 150, unita: "g" }, { nome: "Farina", dose: 180, unita: "g" }, { nome: "Amido di mais", dose: 20, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Frulla la zucca con l'olio e uniscila all'impasto per una torta soffice e arancione."]
+        },
+        {
+          id: 287, nome: "Pasticcini vegani",
+          ingredienti: [{ nome: "Frolla vegana", dose: 100, unita: "g" }, { nome: "Crema vegetale", dose: 80, unita: "g" }, { nome: "Frutta fresca", dose: 40, unita: "g" }],
+          tempo: "15 min", metodo: "🥧 Dolci",
+          procedimento: ["Cestini di frolla 100% vegetale guarniti con crema e frutta."]
+        },
+        {
+          id: 288, nome: "Pancake vegani",
+          ingredienti: [{ nome: "Farina", dose: 80, unita: "g" }, { nome: "Latte di soia o avena", dose: 100, unita: "ml" }, { nome: "Lievito per dolci", dose: 3, unita: "g" }],
+          tempo: "10 min", metodo: "🍳 Padella",
+          procedimento: ["Mescola gli ingredienti senza uova e cuoci in padella spennellata d'olio."]
+        },
+        {
+          id: 289, nome: "Cinnamon Rolls Vegani",
+          ingredienti: [{ nome: "Impasto lievitato vegetale", dose: 200, unita: "g" }, { nome: "Margarina veg", dose: 20, unita: "g" }, { nome: "Cannella", dose: 1, unita: "q.b." }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Stendi, spennella con margarina e cannella, arrotola e cuoci a 180°C."]
+        },
+        {
+          id: 290, nome: "Banana Bread vegano e senza glutine",
+          ingredienti: [{ nome: "Banane maturisssime", dose: 2, unita: "pz" }, { nome: "Farina di riso / Avena SG", dose: 160, unita: "g" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Unisci banane schiacciate e farina senza glutine. Cuoci a 180°C per 35 minuti."]
+        },
+        {
+          id: 291, nome: "Il pane più facile del mondo",
+          ingredienti: [{ nome: "Farina", dose: 300, unita: "g" }, { nome: "Acqua", dose: 220, unita: "ml" }, { nome: "Lievito di birra", dose: 3, unita: "g" }],
+          tempo: "45 min", metodo: "♨️ Forno",
+          procedimento: ["Mescola brevemente con una forchetta, fai lievitare e cuoci in pentola calda in forno."]
+        },
+        {
+          id: 292, nome: "Cookies americani vegani",
+          ingredienti: [{ nome: "Farina", dose: 100, unita: "g" }, { nome: "Olio di cocco", dose: 30, unita: "g" }, { nome: "Gocce di cioccolato", dose: 30, unita: "g" }],
+          tempo: "12 min", metodo: "♨️ Forno",
+          procedimento: ["Crea biscottoni morbidi e cuoci per 10 minuti a 180°C."]
+        },
+        {
+          id: 293, nome: "Plumcake con banane e mirtilli",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Banana", dose: 1, unita: "pz" }, { nome: "Mirtilli", dose: 60, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Amalgama la banana schiacciata e i mirtilli interi e versa nello stampo."]
+        },
+        {
+          id: 294, nome: "Torta con cioccolato, pere e noci",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Cacao", dose: 25, unita: "g" }, { nome: "Pere", dose: 1, unita: "pz" }, { nome: "Noci tritate", dose: 30, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Unisci i cubetti di pera e le noci all'impasto al cacao prima di infornare."]
+        },
+        {
+          id: 295, nome: "Torta alle carote",
+          ingredienti: [{ nome: "Carote", dose: 180, unita: "g" }, { nome: "Farina", dose: 180, unita: "g" }, { nome: "Olio di semi", dose: 50, unita: "ml" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Frulla le carote con l'olio ed incorporale alla farina prima di cuocere."]
+        },
+        {
+          id: 296, nome: "Pan brioche vegano",
+          ingredienti: [{ nome: "Farina Manitoba", dose: 220, unita: "g" }, { nome: "Latte di mandorla", dose: 100, unita: "ml" }, { nome: "Olio", dose: 30, unita: "ml" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Prepara il pan brioche senza derivati animali per una colazione leggera."]
+        },
+        {
+          id: 297, nome: "Muffin vegani alla zucca",
+          ingredienti: [{ nome: "Purea di zucca", dose: 100, unita: "g" }, { nome: "Farina", dose: 120, unita: "g" }, { nome: "Gocce di cioccolato", dose: 25, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Riempi i pirottini con l'impasto alla zucca e inforna a 180°C per 18 min."]
+        },
+        {
+          id: 298, nome: "Crostata di fragole vegana",
+          ingredienti: [{ nome: "Frolla vegana", dose: 1, unita: "pz" }, { nome: "Marmellata di fragole", dose: 120, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Stendi la frolla senza uova, versa la marmellata e inforna."]
+        },
+        {
+          id: 299, nome: "Palline energetiche ai fichi secchi",
+          ingredienti: [{ nome: "Fichi secchi", dose: 100, unita: "g" }, { nome: "Noci o Mandorle", dose: 50, unita: "g" }, { nome: "Cacao amaro", dose: 10, unita: "g" }],
+          tempo: "10 min", metodo: "🥗 Senza Cottura",
+          procedimento: ["Frulla tutto in un mixer potente e crea delle palline monoporzione."]
+        },
+        {
+          id: 300, nome: "Barrette di avena, frutta secca e datteri",
+          ingredienti: [{ nome: "Fiocchi d'avena", dose: 100, unita: "g" }, { nome: "Datteri frullati", dose: 80, unita: "g" }, { nome: "Frutta secca mista", dose: 40, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno / Frigo",
+          procedimento: ["Compressa la miscela in una teglia, cuoci o raffredda e taglia a barrette."]
+        },
+        {
+          id: 301, nome: "Smoothie di frutta per la colazione",
+          ingredienti: [{ nome: "Frutta mista congelata", dose: 150, unita: "g" }, { nome: "Latte vegetale o Yogurt", dose: 150, unita: "ml" }],
+          tempo: "3 min", metodo: "🥤 Bicchieri",
+          procedimento: ["Frulla tutto a massima velocità fino a ottenere una consistenza cremosa."]
+        },
+        {
+          id: 302, nome: "Granola vegan fatta in casa",
+          ingredienti: [{ nome: "Fiocchi d'avena", dose: 150, unita: "g" }, { nome: "Sciroppo d'acero", dose: 30, unita: "g" }, { nome: "Noci e semi", dose: 40, unita: "g" }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Tosta in forno a 160°C mescolando finché dorata."]
+        },
+        {
+          id: 303, nome: "Budino di semi di chia con frutta fresca",
+          ingredienti: [{ nome: "Semi di chia", dose: 30, unita: "g" }, { nome: "Latte di cocco/mandorla", dose: 150, unita: "ml" }, { nome: "Frutta fresca", dose: 50, unita: "g" }],
+          tempo: "5 min", metodo: "❄️ Frigo",
+          procedimento: ["Mescola bene e lascia riposare in frigo tutta la notte."]
+        },
+        {
+          id: 304, nome: "Brownie caffè e noci pecan",
+          ingredienti: [{ nome: "Cacao e Cioccolato fondente", dose: 80, unita: "g" }, { nome: "Caffè concentrato", dose: 30, unita: "ml" }, { nome: "Noci pecan", dose: 30, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Unisci il caffè all'impasto del brownie per intensificare il gusto di cioccolato."]
+        },
+        {
+          id: 305, nome: "Granola Raw",
+          ingredienti: [{ nome: "Grano saraceno germogliato / Avena", dose: 100, unita: "g" }, { nome: "Datteri", dose: 40, unita: "g" }, { nome: "Semi", dose: 30, unita: "g" }],
+          tempo: "10 min", metodo: "🥗 Senza Cottura",
+          procedimento: ["Frulla grossolanamente e fai essiccare o consuma subito nel latte."]
+        },
+        {
+          id: 306, nome: "Crostata alle fragole con farina di farro integrale",
+          ingredienti: [{ nome: "Farina di farro integrale", dose: 150, unita: "g" }, { nome: "Marmellata di fragole", dose: 120, unita: "g" }],
+          tempo: "30 min", metodo: "♨️ Forno",
+          procedimento: ["Stendi la frolla al farro integrale e ricopri con marmellata."]
+        },
+        {
+          id: 307, nome: "Torta di carote vegan",
+          ingredienti: [{ nome: "Carote", dose: 150, unita: "g" }, { nome: "Farina d'avena", dose: 150, unita: "g" }, { nome: "Latte vegetale", dose: 100, unita: "ml" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Impasto soffice 100% vegetale ricco di carote fresche."]
+        },
+        {
+          id: 308, nome: "Pancake vegani e integrali",
+          ingredienti: [{ nome: "Farina integrale", dose: 80, unita: "g" }, { nome: "Latte vegetale", dose: 100, unita: "ml" }, { nome: "Mirtilli", dose: 30, unita: "g" }],
+          tempo: "10 min", metodo: "🍳 Padella",
+          procedimento: ["Cuoci i pancake integrali in padella e guarnisci con sciroppo d'acero."]
+        },
+        {
+          id: 309, nome: "Brownies Vegan senza glutine",
+          ingredienti: [{ nome: "Farina senza glutine", dose: 80, unita: "g" }, { nome: "Cacao amaro", dose: 40, unita: "g" }, { nome: "Purea di mele o banana", dose: 60, unita: "g" }],
+          tempo: "25 min", metodo: "♨️ Forno",
+          procedimento: ["Inforna a 180°C per 20 minuti tenendo l'interno piacevolmente umido."]
+        },
+        {
+          id: 310, nome: "Cookies vegani al doppio cioccolato",
+          ingredienti: [{ nome: "Farina", dose: 100, unita: "g" }, { nome: "Cacao", dose: 20, unita: "g" }, { nome: "Gocce di cioccolato", dose: 30, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Doppia dose di cioccolato per biscotti super golosi da inzuppare."]
+        },
+        {
+          id: 311, nome: "Muffin vegani mele e cannella",
+          ingredienti: [{ nome: "Farina", dose: 120, unita: "g" }, { nome: "Mele a cubetti", dose: 1, unita: "pz" }, { nome: "Cannella", dose: 1, unita: "q.b." }],
+          tempo: "20 min", metodo: "♨️ Forno",
+          procedimento: ["Cuoci nei pirottini a 180°C per 18 minuti."]
+        },
+        {
+          id: 312, nome: "Golden Milk",
+          ingredienti: [{ nome: "Latte vegetale", dose: 200, unita: "ml" }, { nome: "Curcuma in polvere", dose: 3, unita: "g" }, { nome: "Miele o Sciroppo", dose: 10, unita: "g" }, { nome: "Pizzico di pepe nero", dose: 1, unita: "q.b." }],
+          tempo: "5 min", metodo: "🥤 Bicchieri",
+          procedimento: ["Scalda il latte con la curcuma ed il pepe mescolando bene prima di dolcificare."]
+        },
+        {
+          id: 313, nome: "Torta crumble di mele",
+          ingredienti: [{ nome: "Farina", dose: 180, unita: "g" }, { nome: "Mele", dose: 2, unita: "pz" }, { nome: "Zucchero di canna", dose: 40, unita: "g" }],
+          tempo: "35 min", metodo: "♨️ Forno",
+          procedimento: ["Una soffice torta ricoperta da una superficie croccante sbriciolata."]
+        },
+        {
+          id: 314, nome: "Cookies integrali al cioccolato",
+          ingredienti: [{ nome: "Farina integrale", dose: 120, unita: "g" }, { nome: "Gocce di cioccolato", dose: 35, unita: "g" }, { nome: "Olio di semi", dose: 30, unita: "ml" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Forma i biscotti integrali e cuoci a 180°C per 12 minuti."]
+        },
+        {
+          id: 315, nome: "Cookies al burro di arachidi",
+          ingredienti: [{ nome: "Burro di arachidi", dose: 80, unita: "g" }, { nome: "Zucchero di canna", dose: 40, unita: "g" }, { nome: "Farina d'avena", dose: 50, unita: "g" }],
+          tempo: "12 min", metodo: "♨️ Forno",
+          procedimento: ["Schiaccia le palline d'impasto con i rebbi di una forchetta prima di infornare."]
+        },
+        {
+          id: 316, nome: "Cookies di fiocchi di avena",
+          ingredienti: [{ nome: "Fiocchi d'avena", dose: 100, unita: "g" }, { nome: "Banana matura", dose: 1, unita: "pz" }, { nome: "Uvetta o gocce cioccolato", dose: 20, unita: "g" }],
+          tempo: "15 min", metodo: "♨️ Forno",
+          procedimento: ["Unisci avena e banana schiacciata. Forma i biscotti e cuoci per 12 min a 180°C."]
+        },
+        {
+          id: 317, nome: "Torta doppio cioccolato e pere",
+          ingredienti: [{ nome: "Farina", dose: 150, unita: "g" }, { nome: "Cacao ed Cioccolato fondente", dose: 60, unita: "g" }, { nome: "Pere", dose: 2, unita: "pz" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          procedimento: ["Inforna la torta ricca di cioccolato fuso e fette di pera mature."]
+        },
+        {
+          id: 318, nome: "Apple Pie",
+          ingredienti: [{ nome: "Pasta sfoglia o brisée", dose: 2, unita: "rotoli" }, { nome: "Mele a fette", dose: 3, unita: "pz" }, { nome: "Cannella e Limone", dose: 1, unita: "q.b." }],
+          tempo: "45 min", metodo: "♨️ Forno",
+          procedimento: ["Riempi la guscio con le mele aromatizzate, sigilla con il secondo disco e cuoci a 190°C."]
+        },
+        {
+          id: 319, nome: "Breakfast bowl",
+          ingredienti: [{ nome: "Yogurt greco", dose: 150, unita: "g" }, { nome: "Granola", dose: 40, unita: "g" }, { nome: "Banana e Frutti rossi", dose: 80, unita: "g" }, { nome: "Burro di mandorle", dose: 15, unita: "g" }],
+          tempo: "5 min", metodo: "🥣 Zdrowy / Senza cottura",
+          procedimento: ["Disponi lo yogurt alla base e decora a file ordinate con i top preferiti."]
+        },
+        {
+          id: 320, nome: "Banana bread con farina semintegrale",
+          ingredienti: [{ nome: "Banane maturissime", dose: 2, unita: "pz" }, { nome: "Farina tipo 1 o semintegrale", dose: 180, unita: "g" }, { nome: "Olio di semi", dose: 40, unita: "ml" }],
+          tempo: "40 min", metodo: "♨️ Forno",
+          prep: "Si conserva perfettamente per tutta la settimana.",
+          procedimento: ["Schiaccia le banane e amalgama con la farina semintegrale prima di infornare a 180°C per 35 min."]
+        }
+      ]
+    };
+
+    const giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
+    let menuSettimanale = [];
+    let includiColazione = false;
+
+    function getRandomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generaMenuSettimanale() {
+      menuSettimanale = [];
+      const ricetteUsatePranzi = new Set();
+      const ricetteUsateColazioni = new Set();
+
+      giorni.forEach(giorno => {
+        let pranzo, cena;
+        
+        do {
+          pranzo = getRandomItem(ricetteDB.primi_secondi);
+        } while (ricetteUsatePranzi.has(pranzo.id) && ricetteUsatePranzi.size < ricetteDB.primi_secondi.length);
+        ricetteUsatePranzi.add(pranzo.id);
+
+        do {
+          cena = getRandomItem(ricetteDB.primi_secondi);
+        } while (ricetteUsatePranzi.has(cena.id) && ricetteUsatePranzi.size < ricetteDB.primi_secondi.length);
+        ricetteUsatePranzi.add(cena.id);
+
+        const giornoMenu = {
+          giorno: giorno,
+          pranzo: { ...pranzo },
+          cena: { ...cena }
+        };
+
+        if (includiColazione) {
+          let colazione;
+          do {
+            colazione = getRandomItem(ricetteDB.colazioni);
+          } while (ricetteUsateColazioni.has(colazione.id) && ricetteUsateColazioni.size < ricetteDB.colazioni.length);
+          ricetteUsateColazioni.add(colazione.id);
+
+          giornoMenu.colazione = { ...colazione };
+        }
+
+        menuSettimanale.push(giornoMenu);
+      });
+
+      renderMenu();
+      renderSpesa();
+      renderBatch();
+    }
+
+    function renderMenu() {
+      const container = document.getElementById('menu-container');
+      container.innerHTML = '';
+
+      menuSettimanale.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'day-card';
+        
+        let colazioneHTML = '';
+        if (includiColazione && item.colazione) {
+          colazioneHTML = `
+            <div class="meal-box">
+              <div class="meal-header">
+                <span class="meal-label">☕ Colazione</span>
+              </div>
+              <div class="meal-title" onclick="apriModal(${item.colazione.id}, false, true)">${item.colazione.nome}</div>
+              <div class="meal-meta">
+                <span>⏱️ ${item.colazione.tempo || '10 min'}</span>
+                <span>${item.colazione.metodo || '🥣 Colazione'}</span>
+              </div>
+              <div class="swap-container">
+                <div class="swap-search">
+                  <input type="text" id="search-${index}-colazione" placeholder="Es. banana, porridge, cookies...">
+                  <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'colazione')">🔍 Cerca</button>
+                  <button class="btn-recipe" onclick="apriModal(${item.colazione.id}, false, true)">📖 Ricetta</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="day-title"><span>${item.giorno}</span></div>
+          ${colazioneHTML}
+          
+          <!-- PRANZO -->
+          <div class="meal-box">
+            <div class="meal-header">
+              <span class="meal-label">🌞 Pranzo</span>
+              ${item.pranzo.isSalva ? '<span class="badge-salva">Salvaimprevisti</span>' : ''}
+            </div>
+            <div class="meal-title" onclick="apriModal(${item.pranzo.id}, ${item.pranzo.isSalva ? 'true' : 'false'})">${item.pranzo.nome}</div>
+            <div class="meal-meta">
+              <span>⏱️ ${item.pranzo.tempo || '15 min'}</span>
+              <span>${item.pranzo.metodo || '🍳 Padella'}</span>
+            </div>
+            <div class="swap-container">
+              <div class="swap-search">
+                <input type="text" id="search-${index}-pranzo" placeholder="Es. tonno, zucca, pollo...">
+                <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'pranzo')">🔍 Cerca</button>
+                <button class="btn-recipe" onclick="apriModal(${item.pranzo.id}, ${item.pranzo.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
+              </div>
+              <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'pranzo')">⚡ Usa Salvaimprevisti</button>
+            </div>
+          </div>
+
+          <!-- CENA -->
+          <div class="meal-box">
+            <div class="meal-header">
+              <span class="meal-label">🌙 Cena</span>
+              ${item.cena.isSalva ? '<span class="badge-salva">Salvaimprevisti</span>' : ''}
+            </div>
+            <div class="meal-title" onclick="apriModal(${item.cena.id}, ${item.cena.isSalva ? 'true' : 'false'})">${item.cena.nome}</div>
+            <div class="meal-meta">
+              <span>⏱️ ${item.cena.tempo || '15 min'}</span>
+              <span>${item.cena.metodo || '🍳 Padella'}</span>
+            </div>
+            <div class="swap-container">
+              <div class="swap-search">
+                <input type="text" id="search-${index}-cena" placeholder="Es. tonno, zucca, pollo...">
+                <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'cena')">🔍 Cerca</button>
+                <button class="btn-recipe" onclick="apriModal(${item.cena.id}, ${item.cena.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
+              </div>
+              <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'cena')">⚡ Usa Salvaimprevisti</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function cercaECambiaPasto(giornoIndex, tipoPasto) {
+      const inputEl = document.getElementById(`search-${giornoIndex}-${tipoPasto}`);
+      const termine = inputEl ? inputEl.value.trim().toLowerCase() : '';
+      const sorgente = (tipoPasto === 'colazione') ? ricetteDB.colazioni : ricetteDB.primi_secondi;
+
+      if (!termine) {
+        // Sostituzione casuale se il campo di ricerca è vuoto
+        const nuovoPasto = getRandomItem(sorgente);
+        menuSettimanale[giornoIndex][tipoPasto] = { ...nuovoPasto };
+      } else {
+        // Cerca tra le ricette che contengono l'ingrediente o la parola nel nome/ingredienti
+        const trovate = sorgente.filter(r => {
+          const inNome = r.nome.toLowerCase().includes(termine);
+          const inIngr = r.ingredienti.some(i => i.nome.toLowerCase().includes(termine));
+          return inNome || inIngr;
+        });
+
+        if (trovate.length > 0) {
+          const scelta = getRandomItem(trovate);
+          menuSettimanale[giornoIndex][tipoPasto] = { ...scelta };
+        } else {
+          alert(`Nessuna ricetta trovata con "${termine}". Sostituzione con una ricetta casuale.`);
+          const nuovoPasto = getRandomItem(sorgente);
+          menuSettimanale[giornoIndex][tipoPasto] = { ...nuovoPasto };
+        }
+      }
+
+      renderMenu();
+      renderSpesa();
+      renderBatch();
+    }
+
+    function attivaSalvaimprevisti(giornoIndex, tipoPasto) {
+      const salvaItem = getRandomItem(ricetteDB.salvaimprevisti);
+      menuSettimanale[giornoIndex][tipoPasto] = { ...salvaItem, isSalva: true };
+      renderMenu();
+      renderSpesa();
+      renderBatch();
+    }
+
+    function toggleColazione(checked) {
+      includiColazione = checked;
+      generaMenuSettimanale();
+    }
+
+    function renderSpesa() {
+      const container = document.getElementById('spesa-container');
+      const salvaContainer = document.getElementById('spesa-salvaimprevisti-container');
+      container.innerHTML = '';
+      salvaContainer.innerHTML = '';
+
+      const mappaIngredienti = {};
+
+      menuSettimanale.forEach(day => {
+        ['pranzo', 'cena', 'colazione'].forEach(pasto => {
+          if (day[pasto] && day[pasto].ingredienti) {
+            day[pasto].ingredienti.forEach(ing => {
+              const chiave = `${ing.nome.toLowerCase()}_${ing.unita || ''}`;
+              if (!mappaIngredienti[chiave]) {
+                mappaIngredienti[chiave] = { nome: ing.nome, dose: 0, unita: ing.unita || '' };
+              }
+              if (typeof ing.dose === 'number') {
+                mappaIngredienti[chiave].dose += ing.dose;
+              }
+            });
+          }
+        });
+      });
+
+      Object.values(mappaIngredienti).forEach((ing) => {
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.onclick = function() { this.classList.toggle('checked'); };
+        const doseStr = ing.dose > 0 ? `${ing.dose} ${ing.unita}` : (ing.unita || '');
+        item.innerHTML = `<input type="checkbox"> <span>${ing.nome} ${doseStr ? '— ' + doseStr : ''}</span>`;
+        container.appendChild(item);
+      });
+
+      ricetteDB.salvaimprevisti.forEach(ricetta => {
+        ricetta.ingredienti.forEach(ing => {
+          const item = document.createElement('div');
+          item.className = 'list-item salva-item';
+          item.onclick = function() { this.classList.toggle('checked'); };
+          item.innerHTML = `<input type="checkbox"> <span>${ing.nome} (${ing.dose} ${ing.unita})</span>`;
+          salvaContainer.appendChild(item);
+        });
+      });
+    }
+
+    function renderBatch() {
+      const container = document.getElementById('batch-container');
+      container.innerHTML = '';
+
+      const preparazioni = [];
+
+      menuSettimanale.forEach(day => {
+        ['pranzo', 'cena', 'colazione'].forEach(pasto => {
+          const r = day[pasto];
+          if (r && r.prep) {
+            preparazioni.push({ ricetta: r.nome, prep: r.prep, giorno: day.giorno });
+          }
+        });
+      });
+
+      if (preparazioni.length === 0) {
+        container.innerHTML = '<p style="font-size:0.85rem; color: var(--subtext);">Nessuna preparazione anticipata richiesta per le ricette correnti.</p>';
+        return;
+      }
+
+      preparazioni.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'batch-card';
+        card.innerHTML = `
+          <h4>${p.ricetta} (${p.giorno})</h4>
+          <p>${p.prep}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      document.getElementById(`nav-${tabName}`).classList.add('active');
+    }
+
+    function apriModal(id, isSalva = false, isColazione = false) {
+      let db = ricetteDB.primi_secondi;
+      if (isSalva) db = ricetteDB.salvaimprevisti;
+      if (isColazione) db = ricetteDB.colazioni;
+
+      const ricetta = db.find(r => r.id === id);
+      if (!ricetta) return;
+
+      const body = document.getElementById('modal-body');
+      
+      let ingredientiList = ricetta.ingredienti ? ricetta.ingredienti.map(i => `<li>${i.nome}: ${i.dose} ${i.unita}</li>`).join('') : '';
+      let procedimentoList = ricetta.procedimento ? ricetta.procedimento.map(p => `<li>${p}</li>`).join('') : '<li>Nessun procedimento inserito.</li>';
+
+      body.innerHTML = `
+        <div class="modal-title">${ricetta.nome}</div>
+        <div class="modal-subtitle">⏱️ ${ricetta.tempo || ''} | ${ricetta.metodo || ''}</div>
+        
+        <div class="modal-section">
+          <h5>Ingredienti</h5>
+          <ul>${ingredientiList}</ul>
+        </div>
+
+        <div class="modal-section">
+          <h5>Procedimento</h5>
+          <ol>${procedimentoList}</ol>
+        </div>
+      `;
+
+      document.getElementById('recipe-modal').style.display = 'flex';
+    }
+
+    function chiudiModal(event) {
+      if (event.target.id === 'recipe-modal') {
+        document.getElementById('recipe-modal').style.display = 'none';
+      }
+    }
+
+    function chiudiModalDirect() {
+      document.getElementById('recipe-modal').style.display = 'none';
+    }
+
+    // Inizializzazione
+    window.onload = function() {
+      generaMenuSettimanale();
+    };
+  </script>
 </body>
 </html>
