@@ -676,7 +676,7 @@
           ], 
           tempo: "25 min", metodo: "♨️ Forno", 
           prep: "Puoi cuocerla in anticipo e scaldarla in padella all'occorrenza.",
-          procedimento: ["Mescola farina di ceci e acqua eliminando i schiuma in superficie.", "Lascia riposare qualche ora, poi aggiungi olio e sale.", "Versa in una teglia unta e inforna alla massima temperatura per 20 minuti."]
+          procedimento: ["Mescola farina di ceci e acqua eliminando la schiuma in superficie.", "Lascia riposare qualche ora, poi aggiungi olio e sale.", "Versa in una teglia unta e inforna alla massima temperatura per 20 minuti."]
         },
         { 
           id: 26, nome: "Focaccia di patate dolci", 
@@ -724,653 +724,304 @@
           ], 
           tempo: "12 min", metodo: "🍳 Padella", 
           prep: null,
-          procedimento: ["Frulla l'avocado con basilico, limone, pinoli e olio fino a renderlo cremoso.", "Cuoci la pasta.", "Condisci la pasta a fuoco spento aggiungendo acqua di cottura per legare."]
-        },
-        { 
-          id: 30, nome: "Risotto ai funghi", 
-          ingredienti: [
-            { nome: "Riso per risotti", dose: 160, unita: "g" },
-            { nome: "Funghi", dose: 200, unita: "g" },
-            { nome: "Brodo vegetale", dose: 500, unita: "ml" },
-            { nome: "Lievito alimentare", dose: 15, unita: "g" }
-          ], 
-          tempo: "25 min", metodo: "🍳 Padella", 
-          prep: null,
-          procedimento: ["Rosola i funghi in padella con olio e aglio.", "Tosta il riso, bagnati con il brodo e porta a cottura.", "Manteca a fuoco spento con lievito alimentare in scaglie e un filo d'olio."]
-        },
-        { 
-          id: 31, nome: "Pasta alla norma al forno", 
+          procedimento: ["Frulla l'avocado con basilico, limone, pinoli e olio.", "Cuoci la pasta in abbondante acqua salata.", "Scola la pasta e mantecala a freddo con il pesto pronto."]
+        }
+      ],
+      salvaimprevisti: [
+        {
+          id: 101, nome: "Pasta al tonno e limone",
           ingredienti: [
             { nome: "Pasta", dose: 160, unita: "g" },
-            { nome: "Melanzane", dose: 250, unita: "g" },
-            { nome: "Passata di pomodoro", dose: 250, unita: "g" },
-            { nome: "Ricotta salata", dose: 40, unita: "g" }
-          ], 
-          tempo: "35 min", metodo: "♨️ Forno", 
-          prep: "Puoi cuocere la teglia di pasta al forno il giorno prima e riscaldarla al momento.",
-          procedimento: ["Cuoci le melanzane a cubetti in forno o padella.", "Condisci la pasta al dente con il sugo e le melanzane.", "Metti in teglia e inforna per 15 minuti a 200°C."]
+            { nome: "Tonno in scatola", dose: 160, unita: "g" },
+            { nome: "Limone", dose: 1, unita: "pz" },
+            { nome: "Olio EVO", dose: 15, unita: "ml" }
+          ],
+          tempo: "10 min", metodo: "🍳 Fast",
+          procedimento: ["Cuoci la pasta.", "Sgocciola il tonno e condiscilo con buccia e succo di limone e olio.", "Scola la pasta e salta insieme al tonno."]
         },
-        { 
-          id: 32, nome: "Cuscùs con verdure arrostite", 
+        {
+          id: 102, nome: "Uova al tegamino con crostini",
           ingredienti: [
-            { nome: "Cuscùs", dose: 140, unita: "g" },
-            { nome: "Ceci cotti", dose: 150, unita: "g" },
-            { nome: "Zucchine", dose: 150, unita: "g" },
-            { nome: "Peperoni", dose: 150, unita: "g" }
-          ], 
-          tempo: "20 min", metodo: "🍳 Padella", 
-          prep: "Arrostisci le verdure e cuoci i ceci in anticipo: si conservano 4 giorni in frigo.",
-          procedimento: ["Reidrata il cuscùs con acqua bollente salata e un filo d'olio per 5 minuti.", "Sgrana con una forchetta.", "Unisci le verdure arrostite e i ceci speziati."]
+            { nome: "Uova", dose: 4, unita: "pz" },
+            { nome: "Pane", dose: 100, unita: "g" },
+            { nome: "Olio EVO", dose: 10, unita: "ml" }
+          ],
+          tempo: "5 min", metodo: "🍳 Fast",
+          procedimento: ["Tosta le fette di pane.", "Scalda l'olio in padella e rompi le uova.", "Cuoci a fuoco medio finché l'albume si assoda ma il tuorlo resta morbido."]
         },
-        { 
-          id: 33, nome: "Ramen vegetale espresso", 
+        {
+          id: 103, nome: "Ceci in umido veloci",
           ingredienti: [
-            { nome: "Noodles", dose: 150, unita: "g" },
-            { nome: "Miso", dose: 20, unita: "g" },
-            { nome: "Salsa di soia", dose: 20, unita: "ml" },
-            { nome: "Tofu", dose: 150, unita: "g" },
-            { nome: "Spinaci o Verdure", dose: 100, unita: "g" }
-          ], 
-          tempo: "15 min", metodo: "🍳 Padella", 
-          prep: null,
-          procedimento: ["Prepara un brodo veloce dissolvendo il miso nell'acqua con salsa di soia.", "Cuoci i noodles nel brodo.", "Servi completando con tofu a cubetti e verdure saltate."]
-        },
-        { 
-          id: 34, nome: "Hummus di ceci cremosissimo", 
-          ingredienti: [
-            { nome: "Ceci cotti", dose: 250, unita: "g" },
-            { nome: "Tahina", dose: 30, unita: "g" },
-            { nome: "Succo di limone", dose: 20, unita: "ml" },
-            { nome: "Olio EVO", dose: 20, unita: "ml" }
-          ], 
-          tempo: "10 min", metodo: "🥗 Senza Cottura", 
-          prep: "Frulla una grande quantità di hummus nel weekend e tienilo in frigo in vasetto per 5 giorni.",
-          procedimento: ["Nel mixer unisci ceci, tahina, succo di limone, aglio ed un cubetto di ghiaccio.", "Frulla fino ad ottenere una crema vellutata.", "Servi con un filo d'olio ed una spolverata di paprika."]
-        },
-        { 
-          id: 35, nome: "Polpette di lenticchie al sugo", 
-          ingredienti: [
-            { nome: "Lenticchie cotte", dose: 250, unita: "g" },
-            { nome: "Pan grattato", dose: 40, unita: "g" },
-            { nome: "Passata di pomodoro", dose: 250, unita: "g" }
-          ], 
-          tempo: "25 min", metodo: "🍳 Padella", 
-          prep: "Cuoci sia polpette che sugo in anticipo e riponile in frigo.",
-          procedimento: ["Frulla le lenticchie con spezie ed erbe, unisci il pan grattato e forma le polpette.", "Prepara un sugo di pomodoro semplice in padella.", "Tuffa le polpette nel sugo e cuoci a fuoco lento per 15 minuti."]
-        },
-        { 
-          id: 36, nome: "Tofu dorato in padella", 
-          ingredienti: [
-            { nome: "Tofu", dose: 250, unita: "g" },
-            { nome: "Salsa di soia", dose: 20, unita: "ml" },
-            { nome: "Amido di mais", dose: 15, unita: "g" }
-          ], 
-          tempo: "12 min", metodo: "🍳 Padella", 
-          prep: null,
-          procedimento: ["Taglia il tofu a cubetti ed asciugalo bene con carta da cucina.", "Passalo nella salsa di soia e poi nell'amido di mais.", "Rosola in padella con olio caldo fino a renderlo croccante."]
-        },
-        { 
-          id: 37, nome: "Burger di fagioli neri e noci", 
-          ingredienti: [
-            { nome: "Fagioli neri cotti", dose: 250, unita: "g" },
-            { nome: "Noci tritate", dose: 30, unita: "g" },
-            { nome: "Cipolla", dose: 0.5, unita: "pz" },
-            { nome: "Farina d'avena", dose: 30, unita: "g" }
-          ], 
-          tempo: "20 min", metodo: "🍳 Padella", 
-          prep: "Crea i patty di burger nel weekend e tienili pronti da cuocere.",
-          procedimento: ["Schiaccia i fagioli neri con una forchetta.", "Aggiungi le noci tritate finemente, cipolla stufata e farina d'avena.", "Forma i burger e cuocili 4 minuti per lato in padella."]
-        },
-        { 
-          id: 38, nome: "Farinata alle erbe aromatiche", 
-          ingredienti: [
-            { nome: "Farina di ceci", dose: 150, unita: "g" },
-            { nome: "Acqua", dose: 450, unita: "ml" },
-            { nome: "Olio EVO", dose: 25, unita: "ml" }
-          ], 
-          tempo: "25 min", metodo: "♨️ Forno", 
-          prep: "Cuocila in anticipo e porzionala per le cene veloci della settimana.",
-          procedimento: ["Metti in ammollo farina di ceci e acqua per un paio d'ore.", "Aggiungi erbe aromatiche, sale ed olio.", "Versa in teglia e cuoci al forno a 210°C per 20 minuti."]
+            { nome: "Ceci in scatola", dose: 240, unita: "g" },
+            { nome: "Passata di pomodoro", dose: 150, unita: "g" },
+            { nome: "Aglio", dose: 1, unita: "spicchio" },
+            { nome: "Rosmarino", dose: 1, unita: "rametto" }
+          ],
+          tempo: "10 min", metodo: "🍳 Fast",
+          procedimento: ["Soffriggi aglio e rosmarino.", "Aggiungi la passata e i ceci sciacquati.", "Cuoci a fuoco vivo per 8-10 minuti."]
         }
       ],
-
-      salvaimprevisti: [
-        { 
-          id: 101, nome: "Bresaola, pomodorini e grana", 
-          ingredienti: [
-            { nome: "Bresaola", dose: 120, unita: "g" },
-            { nome: "Pomodorini", dose: 150, unita: "g" },
-            { nome: "Grana in scaglie", dose: 40, unita: "g" },
-            { nome: "Rucola", dose: 50, unita: "g" }
-          ], 
-          tempo: "5 min", metodo: "🥗 Senza Cottura", prep: null, 
-          procedimento: ["Disponi la bresaola nel piatto.", "Aggiungi la rucola, i pomodori tagliati a metà e le scaglie di grana.", "Condisci con un filo d'olio ed un goccio di limone."] 
-        },
-        { 
-          id: 102, nome: "Zuppa pronta", 
-          ingredienti: [
-            { nome: "Zuppa pronta in busta", dose: 2, unita: "confezioni" }
-          ], 
-          tempo: "5 min", metodo: "🍳 Padella", prep: null, 
-          procedimento: ["Versa il contenuto della busta in un pentolino.", "Scalda per 4-5 minuti fino a bollore ed impianta."] 
-        },
-        { 
-          id: 103, nome: "Piadina con spinaci e provola", 
-          ingredienti: [
-            { nome: "Piadina", dose: 2, unita: "pz" },
-            { nome: "Spinaci cotti", dose: 150, unita: "g" },
-            { nome: "Provola", dose: 100, unita: "g" }
-          ], 
-          tempo: "7 min", metodo: "🍳 Padella", prep: null, 
-          procedimento: ["Scalda la piadina in padella.", "Farcisci una metà con spinaci e provola a fette.", "Piega a metà e cuoci 2 minuti finché il formaggio non fonde."] 
-        },
-        { 
-          id: 104, nome: "Sofficini e piselli", 
-          ingredienti: [
-            { nome: "Sofficini", dose: 4, unita: "pz" },
-            { nome: "Piselli surgelati", dose: 200, unita: "g" }
-          ], 
-          tempo: "12 min", metodo: "🍳 Padella", prep: null, 
-          procedimento: ["Cuoci i sofficini in padella o air fryer.", "Lessare i piselli surgelati per 7 minuti in acqua salata e servire come contorno."] 
-        },
-        { 
-          id: 105, nome: "Bastoncini di pesce e verdure", 
-          ingredienti: [
-            { nome: "Bastoncini di pesce", dose: 10, unita: "pz" },
-            { nome: "Verdure miste o insalata", dose: 200, unita: "g" }
-          ], 
-          tempo: "15 min", metodo: "♨️ Forno / Air Fryer", prep: null, 
-          procedimento: ["Cuoci i bastoncini di pesce in forno/air fryer a 200°C per 12 minuti.", "Accompagna con verdure a scelta."] 
-        },
-        { 
-          id: 106, nome: "Spinacine e pomodori", 
-          ingredienti: [
-            { nome: "Spinacine", dose: 2, unita: "pz" },
-            { nome: "Pomodori", dose: 200, unita: "g" }
-          ], 
-          tempo: "10 min", metodo: "🍳 Padella", prep: null, 
-          procedimento: ["Cuoci le spinacine in padella con un goccio d'olio per 8 minuti.", "Servi con insalata di pomodori freschi."] 
-        },
-        { 
-          id: 107, nome: "Cordon bleu e verdure", 
-          ingredienti: [
-            { nome: "Cordon bleu", dose: 2, unita: "pz" },
-            { nome: "Insalata mista", dose: 150, unita: "g" }
-          ], 
-          tempo: "12 min", metodo: "🍳 Padella", prep: null, 
-          procedimento: ["Cuoci il cordon bleu in padella rigirandolo a metà cottura.", "Servi ben caldo con contorno di verdure."] 
-        }
-      ],
-
       colazioni: [
-        { 
-          id: 201, nome: "Pancake classici", 
-          ingredienti: [
-            { nome: "Farina", dose: 120, unita: "g" },
-            { nome: "Latte", dose: 150, unita: "ml" },
-            { nome: "Uova", dose: 1, unita: "pz" },
-            { nome: "Zucchero", dose: 20, unita: "g" }
-          ], 
-          tempo: "10 min", metodo: "🍳 Padella", prep: "Puoi cuocere una scorta di pancake e congelarli o tenerli in frigo 3 giorni.", 
-          procedimento: ["Mescola uovo, latte, farina e lievito.", "Cuoci a mestoli in una padella unta rigirandoli quando compaiono le bolle."] 
-        },
-        { 
-          id: 202, nome: "Cheesecake al bicchiere", 
-          ingredienti: [
-            { nome: "Biscotti", dose: 60, unita: "g" },
-            { nome: "Yogurt greco", dose: 250, unita: "g" },
-            { nome: "Miele", dose: 20, unita: "g" },
-            { nome: "Frutti di bosco", dose: 80, unita: "g" }
-          ], 
-          tempo: "5 min", metodo: "🥗 Senza Cottura", prep: "Monta i bicchieri la sera prima e tienili al fresco.", 
-          procedimento: ["Sbriciola i biscotti sul fondo del bicchiere.", "Aggiungi uno strato di yogurt greco dolcificato con miele.", "Guarnisci con frutti di bosco."] 
-        },
-        { 
-          id: 203, nome: "Saccottino strudel", 
-          ingredienti: [
-            { nome: "Pasta sfoglia", dose: 1, unita: "rotolo" },
-            { nome: "Mele", dose: 2, unita: "pz" },
-            { nome: "Cannella", dose: 1, unita: "q.b." },
-            { nome: "Uvetta", dose: 30, unita: "g" }
-          ], 
-          tempo: "20 min", metodo: "♨️ Forno", prep: null, 
-          procedimento: ["Taglia le mele a cubetti e mescolale con cannella e uvetta.", "Riempi dei rettangoli di sfoglia, chiudili e inforna a 200°C per 15 minuti."] 
-        },
-        { 
-          id: 204, nome: "Porridge personalizzato", 
-          ingredienti: [
-            { nome: "Fiocchi d'avena", dose: 80, unita: "g" },
-            { nome: "Latte o bevanda vegetale", dose: 350, unita: "ml" },
-            { nome: "Miele o Sciroppo d'acero", dose: 20, unita: "g" }
-          ], 
-          tempo: "7 min", metodo: "🍳 Padella", prep: "Puoi preparare l'Overnight Oats la sera prima mettendolo direttamente in frigo.", 
-          procedimento: ["Cuoci l'avena nel latte a fuoco lento mescolando finché non si addensa.", "Versa in una tazza e aggiungi i tuoi topping preferiti."] 
-        },
-        { 
-          id: 205, nome: "Mugcake al cacao", 
-          ingredienti: [
-            { nome: "Farina", dose: 60, unita: "g" },
-            { nome: "Cacao amaro", dose: 20, unita: "g" },
-            { nome: "Latte", dose: 80, unita: "ml" },
-            { nome: "Zucchero", dose: 20, unita: "g" }
-          ], 
-          tempo: "3 min", metodo: "♨️ Microonde", prep: null, 
-          procedimento: ["Mescola tutti gli ingredienti secchi direttamente in tazza.", "Aggiungi il latte e mescola bene con una forchetta.", "Cuoci in microonde a max potenza per 90 secondi."] 
-        },
-        { 
-          id: 206, nome: "Crêpes veloci", 
-          ingredienti: [
-            { nome: "Farina", dose: 100, unita: "g" },
-            { nome: "Latte", dose: 200, unita: "ml" },
-            { nome: "Uova", dose: 2, unita: "pz" }
-          ], 
-          tempo: "10 min", metodo: "🍳 Padella", prep: "Cuoci le crêpes in anticipo e conservale impilate in frigo.", 
-          procedimento: ["Sbatte le uova con latte e farina.", "Versa un velo di pastella in padella calda e cuoci 1 minuto per lato."] 
-        },
-        { 
-          id: 207, nome: "Fit tiramisù", 
-          ingredienti: [
-            { nome: "Fette biscottate", dose: 6, unita: "pz" },
-            { nome: "Caffè espresso", dose: 100, unita: "ml" },
-            { nome: "Yogurt greco", dose: 200, unita: "g" },
-            { nome: "Cacao amaro", dose: 10, unita: "g" }
-          ], 
-          tempo: "5 min", metodo: "🥗 Senza Cottura", prep: "Preparalo la sera prima per far ammorbidire le fette biscottate.", 
-          procedimento: ["Inzuppa le fette biscottate nel caffè e crea un primo strato.", "Copri con yogurt greco e ripeti gli strati.", "Spolvera con cacao amaro."] 
-        },
-        { 
-          id: 208, nome: "French toast ripieno", 
-          ingredienti: [
-            { nome: "Pane in cassetta", dose: 4, unita: "fette" },
-            { nome: "Uova", dose: 1, unita: "pz" },
-            { nome: "Latte", dose: 50, unita: "ml" },
-            { nome: "Marmellata", dose: 40, unita: "g" }
-          ], 
-          tempo: "8 min", metodo: "🍳 Padella", prep: null, 
-          procedimento: ["Farcisci due fette di pane con marmellata.", "Passale nell'uovo sbattuto col latte.", "Cuoci in padella con un po' di burro fino a doratura."] 
-        },
-        { 
-          id: 209, nome: "Rotolo integrale alla confettura", 
-          ingredienti: [
-            { nome: "Farina integrale", dose: 120, unita: "g" },
-            { nome: "Confettura", dose: 100, unita: "g" },
-            { nome: "Uova", dose: 2, unita: "pz" }
-          ], 
-          tempo: "20 min", metodo: "♨️ Forno", prep: "Cuoci il rotolo nel weekend per colazioni pronte tutta la settimana.", 
-          procedimento: ["Monta uova e zucchero, unisci la farina.", "Stendi su placca da forno e cuoci 8 minuti a 180°C.", "Spalma la confettura e arrotola subito."] 
-        },
-        { 
-          id: 210, nome: "Mug cake mela e cocco", 
-          ingredienti: [
-            { nome: "Farina", dose: 50, unita: "g" },
-            { nome: "Farina di cocco", dose: 20, unita: "g" },
-            { nome: "Mele", dose: 0.5, unita: "pz" },
-            { nome: "Latte", dose: 60, unita: "ml" }
-          ], 
-          tempo: "3 min", metodo: "♨️ Microonde", prep: null, 
-          procedimento: ["Mescola farina, cocco, latte e pezzetti di mela in tazza.", "Cuoci a microonde per 2 minuti."] 
-        },
-        { 
-          id: 211, nome: "Banana brownie", 
-          ingredienti: [
-            { nome: "Banane mature", dose: 2, unita: "pz" },
-            { nome: "Cacao amaro", dose: 30, unita: "g" },
-            { nome: "Burro d'arachidi", dose: 40, unita: "g" }
-          ], 
-          tempo: "15 min", metodo: "♨️ Forno / Air Fryer", prep: null, 
-          procedimento: ["Schiaccia la banana ed unisci cacao e burro d'arachidi.", "Versa in uno stampino e cuoci in air fryer per 12 min a 170°C."] 
-        },
-        { 
-          id: 212, nome: "Mug cake alla mela", 
-          ingredienti: [
-            { nome: "Farina", dose: 60, unita: "g" },
-            { nome: "Mele", dose: 0.5, unita: "pz" },
-            { nome: "Cannella", dose: 1, unita: "q.b." },
-            { nome: "Latte", dose: 60, unita: "ml" }
-          ], 
-          tempo: "3 min", metodo: "♨️ Microonde", prep: null, 
-          procedimento: ["Mescola gli ingredienti in tazza e cuoci 90 secondi al microonde."] 
-        },
-        { 
-          id: 213, nome: "Banana bread vegetale", 
-          ingredienti: [
-            { nome: "Banane mature", dose: 3, unita: "pz" },
-            { nome: "Farina", dose: 200, unita: "g" },
-            { nome: "Olio di semi", dose: 50, unita: "ml" },
-            { nome: "Noci", dose: 40, unita: "g" }
-          ], 
-          tempo: "40 min", metodo: "♨️ Forno", prep: "Cuocilo interamente nel weekend: tagliato a fette dura tutta la settimana.", 
-          procedimento: ["Schiaccia le banane ed unisci olio, zucchero, farina e noci.", "Inforna a 180°C per 40 minuti in uno stampo da plumcake."] 
-        },
-        { 
-          id: 214, nome: "Cookie morbidi al cioccolato", 
-          ingredienti: [
-            { nome: "Farina", dose: 120, unita: "g" },
-            { nome: "Burro d'arachidi", dose: 50, unita: "g" },
-            { nome: "Gocce di cioccolato", dose: 40, unita: "g" },
-            { nome: "Sciroppo d'acero", dose: 30, unita: "ml" }
-          ], 
-          tempo: "15 min", metodo: "♨️ Forno", prep: "Cuoci i biscotti nel weekend per averli pronti a colazione.", 
-          procedimento: ["Mescola tutti gli ingredienti creando delle palline schiacciate.", "Inforna a 170°C per 10-12 minuti."] 
-        },
-        { 
-          id: 215, nome: "Mousse al cioccolato all'avocado", 
-          ingredienti: [
-            { nome: "Avocado maturo", dose: 1, unita: "pz" },
-            { nome: "Cacao amaro", dose: 30, unita: "g" },
-            { nome: "Sciroppo d'acero", dose: 30, unita: "ml" }
-          ], 
-          tempo: "5 min", metodo: "🥗 Senza Cottura", prep: "Puoi prepararla e conservarla in vasetti di vetro per 3 giorni.", 
-          procedimento: ["Frulla l'avocado con cacao, sciroppo d'acero e un goccio di latte.", "Riponi in frigo prima di servire."] 
-        },
-        { 
-          id: 216, nome: "Porridge cotto con mela e cannella", 
-          ingredienti: [
-            { nome: "Fiocchi d'avena", dose: 80, unita: "g" },
-            { nome: "Mele", dose: 1, unita: "pz" },
-            { nome: "Cannella", dose: 1, unita: "q.b." },
-            { nome: "Latte vegetale", dose: 300, unita: "ml" }
-          ], 
-          tempo: "8 min", metodo: "🍳 Padella", prep: null, 
-          procedimento: ["Cuoci l'avena ed i cubetti di mela nel latte vegetale con cannella finché la mela non diventa tenera."] 
-        },
-        { 
-          id: 217, nome: "Torta soffice al limone", 
-          ingredienti: [
-            { nome: "Farina", dose: 200, unita: "g" },
-            { nome: "Succo di limone", dose: 40, unita: "ml" },
-            { nome: "Latte vegetale", dose: 120, unita: "ml" },
-            { nome: "Olio di semi", dose: 50, unita: "ml" }
-          ], 
-          tempo: "35 min", metodo: "♨️ Forno", prep: "Prepara la torta la domenica da inzuppare nei giorni successivi.", 
-          procedimento: ["Mescola liquidi e secchi ed aggiungi succo e scorza di limone.", "Cuoci a 180°C per 35 minuti."] 
-        }
+        { id: 201, nome: "Porridge Avena e Miele", ingredienti: [{ nome: "Fiocchi d'avena", dose: 80, unita: "g" }, { nome: "Latte/Bevanda vegetale", dose: 300, unita: "ml" }, { nome: "Miele", dose: 20, unita: "g" }] },
+        { id: 202, nome: "Yogurt Greco con Granola e Frutta", ingredienti: [{ nome: "Yogurt greco", dose: 250, unita: "g" }, { nome: "Granola", dose: 50, unita: "g" }, { nome: "Frutta di stagione", dose: 150, unita: "g" }] },
+        { id: 203, nome: "Pancake veloci all'avena", ingredienti: [{ nome: "Farina d'avena", dose: 80, unita: "g" }, { nome: "Uova", dose: 2, unita: "pz" }, { nome: "Latte", dose: 50, unita: "ml" }] }
       ]
     };
 
     const giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
-    let menuCorrente = [];
+    let menuSettimanale = [];
     let includiColazione = false;
 
-    function generaMenuSettimanale() {
-      menuCorrente = [];
-      let salvaimprevistiSlots = new Set();
-      while(salvaimprevistiSlots.size < 2) {
-        let slotRnd = Math.floor(Math.random() * 14);
-        salvaimprevistiSlots.add(slotRnd);
-      }
-
-      let mealIndex = 0;
-
-      giorni.forEach((giorno) => {
-        let giornoObj = { giorno, pranzo: null, cena: null, colazione: null };
-
-        if (includiColazione) {
-          giornoObj.colazione = getRandom(ricetteDB.colazioni);
-        }
-
-        if (salvaimprevistiSlots.has(mealIndex)) {
-          giornoObj.pranzo = { ...getRandom(ricetteDB.salvaimprevisti), salvaimprevisti: true };
-        } else {
-          giornoObj.pranzo = getRandom(ricetteDB.primi_secondi);
-        }
-        mealIndex++;
-
-        let cenaScelta;
-        let tentativi = 0;
-        do {
-          if (salvaimprevistiSlots.has(mealIndex)) {
-            cenaScelta = { ...getRandom(ricetteDB.salvaimprevisti), salvaimprevisti: true };
-          } else {
-            cenaScelta = getRandom(ricetteDB.primi_secondi);
-          }
-          tentativi++;
-        } while (cenaScelta.id === giornoObj.pranzo.id && tentativi < 20);
-
-        giornoObj.cena = cenaScelta;
-        mealIndex++;
-
-        menuCorrente.push(giornoObj);
-      });
-
-      renderMenu();
-      aggiornaSpesa();
-      aggiornaBatchCooking();
-    }
-
-    function getRandom(arr) {
+    function getRandomItem(arr) {
       return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    function renderMenu() {
-      const container = document.getElementById("menu-container");
-      container.innerHTML = "";
+    function generaMenuSettimanale() {
+      menuSettimanale = [];
+      const ricetteUsate = new Set();
 
-      menuCorrente.forEach((g, dayIdx) => {
-        let html = `<div class="day-card"><div class="day-title">${g.giorno}</div>`;
+      giorni.forEach(giorno => {
+        let pranzo, cena;
+        
+        do {
+          pranzo = getRandomItem(ricetteDB.primi_secondi);
+        } while (ricetteUsate.has(pranzo.id) && ricetteUsate.size < ricetteDB.primi_secondi.length);
+        ricetteUsate.add(pranzo.id);
 
-        if (g.colazione) {
-          html += `
-            <div class="meal-box">
-              <div class="meal-header"><span class="meal-label">Colazione</span></div>
-              <div class="meal-title" onclick="apriRicetta(${g.colazione.id}, 'colazioni')">${g.colazione.nome}</div>
-              <div class="meal-meta"><span>⏱️ ${g.colazione.tempo}</span><span>${g.colazione.metodo}</span></div>
-            </div>`;
+        do {
+          cena = getRandomItem(ricetteDB.primi_secondi);
+        } while (ricetteUsate.has(cena.id) && ricetteUsate.size < ricetteDB.primi_secondi.length);
+        ricetteUsate.add(cena.id);
+
+        const giornoMenu = {
+          giorno: giorno,
+          pranzo: { ...pranzo },
+          cena: { ...cena }
+        };
+
+        if (includiColazione) {
+          giornoMenu.colazione = { ...getRandomItem(ricetteDB.colazioni) };
         }
 
-        html += renderMealBox(g.pranzo, dayIdx, 'pranzo');
-        html += renderMealBox(g.cena, dayIdx, 'cena');
+        menuSettimanale.push(giornoMenu);
+      });
 
-        html += `</div>`;
-        container.innerHTML += html;
+      renderMenu();
+      renderSpesa();
+      renderBatch();
+    }
+
+    function renderMenu() {
+      const container = document.getElementById('menu-container');
+      container.innerHTML = '';
+
+      menuSettimanale.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'day-card';
+        
+        let colazioneHTML = '';
+        if (includiColazione && item.colazione) {
+          colazioneHTML = `
+            <div class="meal-box">
+              <div class="meal-header">
+                <span class="meal-label">☕ Colazione</span>
+              </div>
+              <div class="meal-title">${item.colazione.nome}</div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="day-title"><span>${item.giorno}</span></div>
+          ${colazioneHTML}
+          <div class="meal-box">
+            <div class="meal-header">
+              <span class="meal-label">🌞 Pranzo</span>
+              ${item.pranzo.isSalva ? '<span class="badge-salva">Salvaimprevisti</span>' : ''}
+            </div>
+            <div class="meal-title" onclick="apriModal(${item.pranzo.id}, ${item.pranzo.isSalva ? 'true' : 'false'})">${item.pranzo.nome}</div>
+            <div class="meal-meta">
+              <span>⏱️ ${item.pranzo.tempo || '15 min'}</span>
+              <span>${item.pranzo.metodo || '🍳 Padella'}</span>
+            </div>
+            <div class="swap-container">
+              <div class="swap-search">
+                <button class="btn-action" onclick="cambiaPasto(${index}, 'pranzo')">🔄 Cambia</button>
+                <button class="btn-recipe" onclick="apriModal(${item.pranzo.id}, ${item.pranzo.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
+              </div>
+              <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'pranzo')">⚡ Usa Salvaimprevisti</button>
+            </div>
+          </div>
+
+          <div class="meal-box">
+            <div class="meal-header">
+              <span class="meal-label">🌙 Cena</span>
+              ${item.cena.isSalva ? '<span class="badge-salva">Salvaimprevisti</span>' : ''}
+            </div>
+            <div class="meal-title" onclick="apriModal(${item.cena.id}, ${item.cena.isSalva ? 'true' : 'false'})">${item.cena.nome}</div>
+            <div class="meal-meta">
+              <span>⏱️ ${item.cena.tempo || '15 min'}</span>
+              <span>${item.cena.metodo || '🍳 Padella'}</span>
+            </div>
+            <div class="swap-container">
+              <div class="swap-search">
+                <button class="btn-action" onclick="cambiaPasto(${index}, 'cena')">🔄 Cambia</button>
+                <button class="btn-recipe" onclick="apriModal(${item.cena.id}, ${item.cena.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
+              </div>
+              <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'cena')">⚡ Usa Salvaimprevisti</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
       });
     }
 
-    function renderMealBox(pasto, dayIdx, tipoPasto) {
-      let isSalva = pasto.salvaimprevisti ? `<span class="badge-salva">⚡ SALVAIMPREVISTI</span>` : '';
-      let cat = pasto.salvaimprevisti ? 'salvaimprevisti' : 'primi_secondi';
-      
-      return `
-        <div class="meal-box">
-          <div class="meal-header">
-            <span class="meal-label">${tipoPasto.toUpperCase()}</span>
-            ${isSalva}
-          </div>
-          <div class="meal-title" onclick="apriRicetta(${pasto.id}, '${cat}')">${pasto.nome}</div>
-          <div class="meal-meta">
-            <span>⏱️ ${pasto.tempo}</span>
-            <span>${pasto.metodo}</span>
-          </div>
-          <div class="swap-container">
-            <div class="swap-search">
-              <input type="text" id="input-${dayIdx}-${tipoPasto}" placeholder="Filtra per ingrediente...">
-              <button class="btn-action" onclick="cambiaPerIngrediente(${dayIdx}, '${tipoPasto}')">Cerca</button>
-              <button class="btn-recipe" onclick="apriRicetta(${pasto.id}, '${cat}')">📖 Ricetta</button>
-            </div>
-            <button class="btn-salva-action" onclick="impostaSalvaImprevisti(${dayIdx}, '${tipoPasto}')">⚡ Metti Salvaimprevisti</button>
-          </div>
-        </div>`;
-    }
-
-    function cambiaPerIngrediente(dayIdx, tipoPasto) {
-      const inputEl = document.getElementById(`input-${dayIdx}-${tipoPasto}`);
-      const ingredienteCercato = inputEl.value.trim().toLowerCase();
-
-      let piscina = [...ricetteDB.primi_secondi, ...ricetteDB.salvaimprevisti];
-      let opzioni = piscina.filter(r => r.ingredienti.some(i => i.nome.toLowerCase().includes(ingredienteCercato)));
-
-      let altroPasto = (tipoPasto === 'pranzo') ? menuCorrente[dayIdx].cena : menuCorrente[dayIdx].pranzo;
-      opzioni = opzioni.filter(r => r.id !== altroPasto.id);
-
-      if (opzioni.length > 0) {
-        menuCorrente[dayIdx][tipoPasto] = getRandom(opzioni);
-      } else {
-        alert(`Nessuna alternativa con "${ingredienteCercato}" trovata.`);
-      }
-
+    function cambiaPasto(giornoIndex, tipoPasto) {
+      const nuovoPasto = getRandomItem(ricetteDB.primi_secondi);
+      menuSettimanale[giornoIndex][tipoPasto] = { ...nuovoPasto };
       renderMenu();
-      aggiornaSpesa();
-      aggiornaBatchCooking();
+      renderSpesa();
+      renderBatch();
     }
 
-    function impostaSalvaImprevisti(dayIdx, tipoPasto) {
-      let opzioneSalva = { ...getRandom(ricetteDB.salvaimprevisti), salvaimprevisti: true };
-      menuCorrente[dayIdx][tipoPasto] = opzioneSalva;
-
+    function attivaSalvaimprevisti(giornoIndex, tipoPasto) {
+      const salvaItem = getRandomItem(ricetteDB.salvaimprevisti);
+      menuSettimanale[giornoIndex][tipoPasto] = { ...salvaItem, isSalva: true };
       renderMenu();
-      aggiornaSpesa();
-      aggiornaBatchCooking();
+      renderSpesa();
+      renderBatch();
     }
 
-    function aggiornaSpesa() {
-      const spesaContainer = document.getElementById("spesa-container");
-      const salvaContainer = document.getElementById("spesa-salvaimprevisti-container");
-      
-      let spesaMappa = new Map();
+    function toggleColazione(checked) {
+      includiColazione = checked;
+      generaMenuSettimanale();
+    }
 
-      // Somma ingredienti del menu settimanale
-      menuCorrente.forEach(g => {
-        [g.colazione, g.pranzo, g.cena].forEach(pasto => {
-          if (pasto && pasto.ingredienti) {
-            pasto.ingredienti.forEach(ing => {
-              let key = `${ing.nome.toLowerCase()}_${ing.unita}`;
-              if (spesaMappa.has(key)) {
-                let cur = spesaMappa.get(key);
-                cur.dose += ing.dose;
-              } else {
-                spesaMappa.set(key, { nome: ing.nome, dose: ing.dose, unita: ing.unita });
+    function renderSpesa() {
+      const container = document.getElementById('spesa-container');
+      const salvaContainer = document.getElementById('spesa-salvaimprevisti-container');
+      container.innerHTML = '';
+      salvaContainer.innerHTML = '';
+
+      const mappaIngredienti = {};
+
+      menuSettimanale.forEach(day => {
+        ['pranzo', 'cena', 'colazione'].forEach(pasto => {
+          if (day[pasto] && day[pasto].ingredienti) {
+            day[pasto].ingredienti.forEach(ing => {
+              const chiave = `${ing.nome.toLowerCase()}_${ing.unita || ''}`;
+              if (!mappaIngredienti[chiave]) {
+                mappaIngredienti[chiave] = { nome: ing.nome, dose: 0, unita: ing.unita || '' };
+              }
+              if (typeof ing.dose === 'number') {
+                mappaIngredienti[chiave].dose += ing.dose;
               }
             });
           }
         });
       });
 
-      spesaContainer.innerHTML = "";
-      let idx = 0;
-
-      let listaOrdinata = Array.from(spesaMappa.values()).sort((a,b) => a.nome.localeCompare(b.nome));
-
-      if (listaOrdinata.length === 0) {
-        spesaContainer.innerHTML = "<p style='color:var(--subtext)'>Nessun ingrediente in lista.</p>";
-      } else {
-        listaOrdinata.forEach(item => {
-          let testodose = (item.unita === "q.b.") ? "q.b." : `${Math.round(item.dose * 10) / 10} ${item.unita}`;
-          spesaContainer.innerHTML += `
-            <div class="list-item" onclick="this.classList.toggle('checked')">
-              <input type="checkbox" id="spesa-${idx}">
-              <label for="spesa-${idx}"><strong>${item.nome}</strong>: ${testodose}</label>
-            </div>`;
-          idx++;
-        });
-      }
-
-      // Sezione Refill Salvaimprevisti (Lista fissa di sicurezza per tutte le ricette d'emergenza)
-      salvaContainer.innerHTML = "";
-      let salvaSet = new Map();
-      ricetteDB.salvaimprevisti.forEach(ricetta => {
-        ricetta.ingredienti.forEach(ing => {
-          let key = `${ing.nome.toLowerCase()}_${ing.unita}`;
-          if (!salvaSet.has(key)) {
-            salvaSet.set(key, { nome: ing.nome, dose: ing.dose, unita: ing.unita });
-          }
-        });
+      Object.values(mappaIngredienti).forEach((ing, i) => {
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.onclick = function() { this.classList.toggle('checked'); };
+        const doseStr = ing.dose > 0 ? `${ing.dose} ${ing.unita}` : (ing.unita || '');
+        item.innerHTML = `<input type="checkbox"> <span>${ing.nome} ${doseStr ? '— ' + doseStr : ''}</span>`;
+        container.appendChild(item);
       });
 
-      Array.from(salvaSet.values()).sort((a,b) => a.nome.localeCompare(b.nome)).forEach(item => {
-        let testodose = (item.unita === "q.b.") ? "q.b." : `${item.dose} ${item.unita}`;
-        salvaContainer.innerHTML += `
-          <div class="list-item salva-item" onclick="this.classList.toggle('checked')">
-            <input type="checkbox" id="salva-spesa-${idx}">
-            <label for="salva-spesa-${idx}"><strong>${item.nome}</strong> (${testodose})</label>
-          </div>`;
-        idx++;
+      ricetteDB.salvaimprevisti.forEach(ricetta => {
+        ricetta.ingredienti.forEach(ing => {
+          const item = document.createElement('div');
+          item.className = 'list-item salva-item';
+          item.onclick = function() { this.classList.toggle('checked'); };
+          item.innerHTML = `<input type="checkbox"> <span>${ing.nome} (${ing.dose} ${ing.unita})</span>`;
+          salvaContainer.appendChild(item);
+        });
       });
     }
 
-    function aggiornaBatchCooking() {
-      const batchContainer = document.getElementById("batch-container");
-      batchContainer.innerHTML = "";
+    function renderBatch() {
+      const container = document.getElementById('batch-container');
+      container.innerHTML = '';
 
-      let preparazioni = new Map();
+      const preparazioni = [];
 
-      menuCorrente.forEach(g => {
-        [g.colazione, g.pranzo, g.cena].forEach(pasto => {
-          if (pasto && pasto.prep) {
-            preparazioni.set(pasto.nome, pasto.prep);
+      menuSettimanale.forEach(day => {
+        ['pranzo', 'cena'].forEach(pasto => {
+          const r = day[pasto];
+          if (r && r.prep) {
+            preparazioni.push({ ricetta: r.nome, prep: r.prep, giorno: day.giorno });
           }
         });
       });
 
-      if (preparazioni.size === 0) {
-        batchContainer.innerHTML = "<p style='color:var(--subtext)'>Nessuna preparazione anticipata richiesta per questa settimana.</p>";
+      if (preparazioni.length === 0) {
+        container.innerHTML = '<p style="font-size:0.85rem; color: var(--subtext);">Nessuna preparazione anticipata richiesta per le ricette correnti.</p>';
         return;
       }
 
-      preparazioni.forEach((prepInfo, nomeRicetta) => {
-        batchContainer.innerHTML += `
-          <div class="batch-card">
-            <h4>${nomeRicetta}</h4>
-            <p>${prepInfo}</p>
-          </div>`;
+      preparazioni.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'batch-card';
+        card.innerHTML = `
+          <h4>${p.ricetta} (${p.giorno})</h4>
+          <p>${p.prep}</p>
+        `;
+        container.appendChild(card);
       });
     }
 
-    function apriRicetta(id, categoria) {
-      let r = ricetteDB[categoria].find(item => item.id === id);
-      if(!r) return;
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
 
-      const modalBody = document.getElementById("modal-body");
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      document.getElementById(`nav-${tabName}`).classList.add('active');
+    }
+
+    function apriModal(id, isSalva) {
+      const db = isSalva ? ricetteDB.salvaimprevisti : ricetteDB.primi_secondi;
+      const ricetta = db.find(r => r.id === id);
+      if (!ricetta) return;
+
+      const body = document.getElementById('modal-body');
       
-      let ingHtml = r.ingredienti.map(i => {
-        let testodose = (i.unita === "q.b.") ? "q.b." : `${i.dose} ${i.unita}`;
-        return `<li><strong>${i.nome}</strong>: ${testodose}</li>`;
-      }).join("");
+      let ingredientiList = ricetta.ingredienti.map(i => `<li>${i.nome}: ${i.dose} ${i.unita}</li>`).join('');
+      let procedimentoList = ricetta.procedimento ? ricetta.procedimento.map(p => `<li>${p}</li>`).join('') : '<li>Nessun procedimento inserito.</li>';
 
-      let procHtml = r.procedimento ? r.procedimento.map(p => `<li>${p}</li>`).join("") : "<li>Procedimento non disponibile.</li>";
-
-      modalBody.innerHTML = `
-        <div class="modal-title">${r.nome}</div>
-        <div class="modal-subtitle">👥 Dosaggio calcolato per 2 Persone</div>
-        <div style="font-size: 0.8rem; color: var(--subtext); margin-bottom: 12px;">⏱️ ${r.tempo} | ${r.metodo}</div>
+      body.innerHTML = `
+        <div class="modal-title">${ricetta.nome}</div>
+        <div class="modal-subtitle">⏱️ ${ricetta.tempo || ''} | ${ricetta.metodo || ''}</div>
         
         <div class="modal-section">
-          <h5>Ingredienti</h5>
-          <ul>${ingHtml}</ul>
+          <h5>Ingredienti per 2 persone</h5>
+          <ul>${ingredientiList}</ul>
         </div>
-        
+
         <div class="modal-section">
-          <h5>Preparazione</h5>
-          <ol>${procHtml}</ol>
+          <h5>Procedimento</h5>
+          <ol>${procedimentoList}</ol>
         </div>
       `;
 
-      document.getElementById("recipe-modal").style.display = "flex";
+      document.getElementById('recipe-modal').style.display = 'flex';
     }
 
-    function chiudiModal(e) {
-      if(e.target.id === "recipe-modal") {
-        document.getElementById("recipe-modal").style.display = "none";
+    function chiudiModal(event) {
+      if (event.target.id === 'recipe-modal') {
+        document.getElementById('recipe-modal').style.display = 'none';
       }
     }
 
     function chiudiModalDirect() {
-      document.getElementById("recipe-modal").style.display = "none";
+      document.getElementById('recipe-modal').style.display = 'none';
     }
 
-    function toggleColazione(val) {
-      includiColazione = val;
+    // Inizializzazione
+    window.onload = function() {
       generaMenuSettimanale();
-    }
-
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
-
-      document.getElementById(`tab-${tab}`).classList.add('active');
-      document.getElementById(`nav-${tab}`).classList.add('active');
-    }
-
-    generaMenuSettimanale();
+    };
   </script>
 </body>
 </html>
