@@ -277,30 +277,86 @@
   </nav>
 
   <script>
-    // Database Ricette con tempi e modalità di cottura
+    // Database Ricette Completo con tempi, modalità e batch prep
     const ricetteDB = {
       primi_secondi: [
-        { id: 1, nome: "Pasta al Pomodoro e Basilico", ingredienti: ["Pasta", "Passata di pomodoro", "Aglio", "Basilico"], tempo: "15 min", metodo: "🍳 Padella", prep: "Cuoci un vaso grande di sugo al pomodoro." },
-        { id: 2, nome: "Riso con Zucchine e Zafferano", ingredienti: ["Riso", "Zucchine", "Zafferano", "Cipolla"], tempo: "20 min", metodo: "🍳 Padella", prep: "Lessa il riso e salta le zucchine in anticipo." },
-        { id: 3, nome: "Pollo Grigliato & Insalata", ingredienti: ["Petto di pollo", "Lattuga", "Limoni"], tempo: "10 min", metodo: "🍳 Padella", prep: "Puoi marinare il pollo la sera prima." },
-        { id: 4, nome: "Salmone al Forno con Patate", ingredienti: ["Filetto di salmone", "Patate", "Rosmarino"], tempo: "25 min", metodo: "♨️ Forno / Air Fryer", prep: "Taglia le patate a cubetti pronte per la cottura." },
-        { id: 5, nome: "Frittata alle Erbe & Zucchine", ingredienti: ["Uova", "Prezzemolo", "Zucchine", "Formaggio"], tempo: "12 min", metodo: "🍳 Padella", prep: "Lava e affetta le zucchine." },
-        { id: 6, nome: "Pasta con i Broccoli", ingredienti: ["Pasta", "Broccoli", "Aglio", "Peperoncino"], tempo: "15 min", metodo: "🍳 Padella", prep: "Lessa i broccoli a vapore in anticipo." },
-        { id: 7, nome: "Insalatona con Tonno e Uova", ingredienti: ["Lattuga", "Tonno in scatola", "Uova", "Pomodori"], tempo: "10 min", metodo: "🥗 Senza Cottura", prep: "Rassoda le uova (durano 4-5 giorni in frigo)." },
-        { id: 8, nome: "Vellutata Zucca e Carote", ingredienti: ["Zucca", "Carote", "Cipolla", "Olio EVO"], tempo: "30 min", metodo: "🍳 Padella", prep: "Prepara l'intera vellutata e conservala in frigo." },
-        { id: 9, nome: "Lenticchie in Umido e Crostini", ingredienti: ["Lenticchie", "Passata di pomodoro", "Pane"], tempo: "20 min", metodo: "🍳 Padella", prep: "Cuoci le lenticchie (più buone se riscaldate)." },
-        { id: 10, nome: "Ceci Speziati & Spinaci", ingredienti: ["Ceci", "Paprika", "Aglio", "Spinaci"], tempo: "10 min", metodo: "🍳 Padella", prep: "Sciacqua i ceci pronti all'uso." }
+        // Primi e Piatti Unici
+        { id: 1, nome: "Gnocchi di barbabietola", ingredienti: ["Gnocchi di barbabietola", "Burro", "Salvia", "Parmigiano"], tempo: "15 min", metodo: "🍳 Padella", prep: "Puoi preparare gli gnocchi in anticipo e conservarli in frigo." },
+        { id: 2, nome: "Pasta barbabietola e feta", ingredienti: ["Pasta", "Barbabietola", "Feta", "Noci"], tempo: "15 min", metodo: "🍳 Padella", prep: "Frulla la barbabietola in crema prima di iniziare." },
+        { id: 3, nome: "Spaghetti al ragù di polpo", ingredienti: ["Spaghetti", "Polpo", "Passata di pomodoro", "Aglio", "Vino bianco"], tempo: "40 min", metodo: "🍳 Padella", prep: "Prepara il ragù di polpo in anticipo." },
+        { id: 4, nome: "Fusilli al pesto di zucchine e salmone", ingredienti: ["Fusilli", "Zucchine", "Salmone affumicato", "Mandorle", "Olio EVO"], tempo: "20 min", metodo: "🍳 Padella", prep: "Frulla il pesto di zucchine in anticipo." },
+        { id: 5, nome: "Risotto alla zucca", ingredienti: ["Riso per risotti", "Zucca", "Brodo vegetale", "Cipolla", "Parmigiano"], tempo: "25 min", metodo: "🍳 Padella", prep: "Cuoci la zucca a cubetti o al vapore prima." },
+        { id: 6, nome: "Pomodori ripieni di riso", ingredienti: ["Pomodori grandi", "Riso", "Patate", "Origano", "Aglio"], tempo: "45 min", metodo: "♨️ Forno", prep: "Assembla e cuoci in anticipo, ottimi anche freddi." },
+        { id: 7, nome: "Vellutata di zucca e carote", ingredienti: ["Zucca", "Carote", "Cipolla", "Olio EVO", "Crostini"], tempo: "30 min", metodo: "🍳 Padella", prep: "Prepara l'intera vellutata da conservare in frigo." },
+        { id: 8, nome: "Vellutata di cavolo nero", ingredienti: ["Cavolo nero", "Patate", "Cipolla", "Brodo vegetale", "Olio EVO"], tempo: "30 min", metodo: "🍳 Padella", prep: "Pulisci e cuoci il cavolo nero in anticipo." },
+        { id: 9, nome: "Vellutata di zucchine e porri", ingredienti: ["Zucchine", "Porri", "Patate", "Olio EVO"], tempo: "25 min", metodo: "🍳 Padella", prep: "Cuoci e frulla le verdure per averla pronta." },
+        { id: 10, nome: "Zuppa di lenticchie", ingredienti: ["Lenticchie", "Carote", "Sedano", "Passata di pomodoro", "Alloro"], tempo: "35 min", metodo: "🍳 Padella", prep: "Cucinane in abbondanza, è più buona riscaldata." },
+        { id: 11, nome: "Insalatone veloci", ingredienti: ["Lattuga o Cavolo nero", "Rucola", "Finocchi", "Fragole o Pomodori", "Formaggio o Noci"], tempo: "10 min", metodo: "🥗 Senza Cottura", prep: "Lava ed asciuga le verdure a foglia per la settimana." },
+
+        // Secondi Piatti
+        { id: 12, nome: "Polpette di ceci e spinaci", ingredienti: ["Ceci", "Spinaci", "Pan grattato", "Aglio", "Spezie"], tempo: "20 min", metodo: "♨️ Forno / Air Fryer", prep: "Forma le polpette e conservale pronte da cuocere." },
+        { id: 13, nome: "Polpette spinaci, piselli e feta", ingredienti: ["Spinaci", "Piselli", "Feta", "Uova", "Pan grattato"], tempo: "20 min", metodo: "♨️ Forno / Air Fryer", prep: "Cuoci a vapore piselli e spinaci prima." },
+        { id: 14, nome: "Burger di lenticchie", ingredienti: ["Lenticchie cotte", "Carote", "Cipolla", "Farina d'avena"], tempo: "15 min", metodo: "🍳 Padella", prep: "Modella i burger e tienili in frigo riposati." },
+        { id: 15, nome: "Burger di carote e fagioli", ingredienti: ["Fagioli bianchi", "Carote grattugiate", "Erbe aromatiche", "Pan grattato"], tempo: "15 min", metodo: "🍳 Padella", prep: "Prepara l'impasto dei burger." },
+        { id: 16, nome: "Medaglioni zucca e ricotta", ingredienti: ["Zucca", "Ricotta", "Parmigiano", "Uovo", "Pan grattato"], tempo: "25 min", metodo: "♨️ Forno", prep: "Cuoci la zucca e schiacciala in anticipo." },
+        { id: 17, nome: "Pancake pollo e zucchine", ingredienti: ["Macinato di pollo", "Zucchine grattugiate", "Uovo", "Farina"], tempo: "15 min", metodo: "🍳 Padella", prep: "Grattugia le zucchine e strizzale bene." },
+        { id: 18, nome: "Involtini di pollo", ingredienti: ["Fettine di pollo", "Prosciutto cotto", "Formaggio", "Salvia"], tempo: "15 min", metodo: "🍳 Padella", prep: "Arrotola gli involtini pronti per la cottura." },
+        { id: 19, nome: "Polpette di merluzzo", ingredienti: ["Merluzzo", "Patate lesse", "Prezzemolo", "Uovo"], tempo: "20 min", metodo: "♨️ Forno / Air Fryer", prep: "Lessa le patate e il merluzzo." },
+        { id: 20, nome: "Tortino di pesce e patate", ingredienti: ["Filetti di pesce bianco", "Patate", "Olio EVO", "Erbe aromatiche"], tempo: "30 min", metodo: "♨️ Forno", prep: "Lessa leggermente le patate a fette." },
+        { id: 21, nome: "Polpettone di tonno", ingredienti: ["Tonno in scatola", "Uova", "Pan grattato", "Parmigiano", "Capperi"], tempo: "25 min", metodo: "🍳 Padella", prep: "Puoi cuocerlo prima e servirlo anche freddo." },
+        { id: 22, nome: "Seppie con piselli", ingredienti: ["Seppie", "Piselli", "Passata di pomodoro", "Vino bianco"], tempo: "30 min", metodo: "🍳 Padella", prep: "Pulisci e taglia le seppie a listarelle." },
+
+        // Impasti e Basi
+        { id: 23, nome: "Fake pizza", ingredienti: ["Tortillas / Piadina", "Passata di pomodoro", "Mozzarella", "Origano"], tempo: "10 min", metodo: "♨️ Forno / Air Fryer", prep: null },
+        { id: 24, nome: "Piadina fatta in casa", ingredienti: ["Farina", "Acqua", "Olio EVO", "Bicarbonato"], tempo: "20 min", metodo: "🍳 Padella", prep: "Impasta e stendi i dischi in anticipo." },
+        { id: 25, nome: "Farinata di ceci", ingredienti: ["Farina di ceci", "Acqua", "Olio EVO", "Rosmarino"], tempo: "25 min", metodo: "♨️ Forno", prep: "Fai riposare la pastella qualche ora prima." },
+        { id: 26, nome: "Focaccia di patate dolci", ingredienti: ["Patate dolci lesse", "Farina", "Lievito", "Olio EVO"], tempo: "35 min", metodo: "♨️ Forno", prep: "Lessa le patate dolci." },
+        { id: 27, nome: "Crackers ai semi", ingredienti: ["Farina", "Semi misti", "Acqua", "Olio EVO"], tempo: "20 min", metodo: "♨️ Forno", prep: "Cuocine una bella scorta per tutta la settimana." },
+
+        // Cucina Botanica (Vegane e Vegetali)
+        { id: 28, nome: "Curry di ceci, zucca e latte di cocco", ingredienti: ["Ceci", "Zucca", "Latte di cocco", "Curry", "Cipolla"], tempo: "25 min", metodo: "🍳 Padella", prep: "Cuoci il curry in anticipo per far amalgamare i sapori." },
+        { id: 29, nome: "Pasta al pesto di avocado e basilico", ingredienti: ["Pasta", "Avocado", "Basilico", "Limone", "Pinoli"], tempo: "12 min", metodo: "🍳 Padella", prep: "Frulla il pesto fresco al momento." },
+        { id: 30, nome: "Risotto ai funghi con mantecatura vegetale", ingredienti: ["Riso per risotti", "Funghi", "Lievito alimentare", "Brodo vegetale"], tempo: "25 min", metodo: "🍳 Padella", prep: "Pulisci e affetta i funghi in anticipo." },
+        { id: 31, nome: "Pasta alla norma rivisitata (al forno)", ingredienti: ["Pasta", "Melanzane", "Passata di pomodoro", "Basilico"], tempo: "35 min", metodo: "♨️ Forno", prep: "Griglia o cuoci al forno le melanzane prima." },
+        { id: 32, nome: "Cuscùs speziato con verdure arrostite e ceci", ingredienti: ["Cuscùs", "Ceci", "Zucchine", "Peperoni", "Spezie"], tempo: "20 min", metodo: "🍳 Padella", prep: "Arrostisci le verdure prima." },
+        { id: 33, nome: "Ramen vegetale espresso", ingredienti: ["Noodles", "Miso", "Salsa di soia", "Tofu", "Verdure di stagione"], tempo: "15 min", metodo: "🍳 Padella", prep: "Prepara il brodo aromatico in anticipo." },
+        { id: 34, nome: "Hummus di ceci classico e cremosissimo", ingredienti: ["Ceci", "Tahina", "Limone", "Aglio", "Olio EVO"], tempo: "10 min", metodo: "🥗 Senza Cottura", prep: "Frullalo e conservalo in frigo riposto in vetro." },
+        { id: 35, nome: "Polpette di lenticchie al sugo di pomodoro", ingredienti: ["Lenticchie cotte", "Pan grattato", "Passata di pomodoro", "Erbe"], tempo: "25 min", metodo: "🍳 Padella", prep: "Prepara l'impasto e modella le polpette." },
+        { id: 36, nome: "Tofu dorato e croccante in padella", ingredienti: ["Tofu", "Salsa di soia", "Amido di mais", "Spezie"], tempo: "12 min", metodo: "🍳 Padella", prep: "Pressa e marina il tofu in anticipo." },
+        { id: 37, nome: "Burger di fagioli neri e noci", ingredienti: ["Fagioli neri", "Noci tritate", "Cipolla", "Farina d'avena"], tempo: "20 min", metodo: "🍳 Padella", prep: "Crea i patty di burger da tenere pronti." },
+        { id: 38, nome: "Farinata di ceci alle erbe aromatiche", ingredienti: ["Farina di ceci", "Acqua", "Rosmarino", "Timo", "Olio EVO"], tempo: "25 min", metodo: "♨️ Forno", prep: "Metti la farina in ammollo con l'acqua qualche ora prima." }
       ],
+
       salvaimprevisti: [
-        { id: 101, nome: "Pizza Surgelata", ingredienti: ["Pizza surgelata"], tempo: "12 min", metodo: "♨️ Forno / Air Fryer", prep: null },
-        { id: 102, nome: "Ravioli Pronti Burro & Salvia", ingredienti: ["Ravioli freschi", "Burro", "Salvia"], tempo: "5 min", metodo: "🍳 Padella", prep: null },
-        { id: 103, nome: "Zuppa Pronta in Busta", ingredienti: ["Zuppa pronta"], tempo: "4 min", metodo: "🍳 Padella", prep: null },
-        { id: 104, nome: "Bastoncini di Pesce & Patatine", ingredienti: ["Bastoncini di pesce", "Patate surgelate"], tempo: "15 min", metodo: "♨️ Forno / Air Fryer", prep: null }
+        { id: 101, nome: "Bresaola, pomodorini e grana", ingredienti: ["Bresaola", "Pomodorini", "Scaglie di grana", "Rucola"], tempo: "5 min", metodo: "🥗 Senza Cottura", prep: null },
+        { id: 102, nome: "Zuppa pronta", ingredienti: ["Zuppa pronta in busta"], tempo: "5 min", metodo: "🍳 Padella", prep: null },
+        { id: 103, nome: "Piadina con spinaci e provola", ingredienti: ["Piadina", "Spinaci cotti", "Provola"], tempo: "7 min", metodo: "🍳 Padella", prep: null },
+        { id: 104, nome: "Sofficini e piselli", ingredienti: ["Sofficini", "Piselli surgelati"], tempo: "12 min", metodo: "🍳 Padella", prep: null },
+        { id: 105, nome: "Bastoncini di pesce e verdure", ingredienti: ["Bastoncini di pesce", "Insalata o verdure a vapore"], tempo: "15 min", metodo: "♨️ Forno / Air Fryer", prep: null },
+        { id: 106, nome: "Spinacine e pomodori", ingredienti: ["Spinacine", "Pomodori"], tempo: "10 min", metodo: "🍳 Padella", prep: null },
+        { id: 107, nome: "Cordon bleu e verdure", ingredienti: ["Cordon bleu", "Verdure a scelta"], tempo: "12 min", metodo: "🍳 Padella", prep: null }
       ],
+
       colazioni: [
-        { id: 201, nome: "Yogurt, Muesli & Miele", ingredienti: ["Yogurt", "Muesli", "Miele"], tempo: "2 min", metodo: "🥗 Senza Cottura", prep: null },
-        { id: 202, nome: "Fette Biscottate e Marmellata", ingredienti: ["Caffè", "Fette biscottate", "Marmellata"], tempo: "3 min", metodo: "🥗 Senza Cottura", prep: null },
-        { id: 203, nome: "Pancake Veloci & Frutta", ingredienti: ["Farina", "Latte", "Uova", "Frutta"], tempo: "10 min", metodo: "🍳 Padella", prep: "Pastella pronta la sera prima." }
+        { id: 201, nome: "Pancake classici", ingredienti: ["Farina", "Latte", "Uovo", "Zucchero", "Lievito per dolci"], tempo: "10 min", metodo: "🍳 Padella", prep: "Puoi preparare la pastella la sera prima." },
+        { id: 202, nome: "Cheesecake al bicchiere", ingredienti: ["Biscotti", "Yogurt greco", "Miele", "Frutti di bosco"], tempo: "5 min", metodo: "🥗 Senza Cottura", prep: "Monta i bicchieri la sera prima." },
+        { id: 203, nome: "Saccottino strudel", ingredienti: ["Pasta sfoglia", "Mele", "Cannella", "Uvetta"], tempo: "20 min", metodo: "♨️ Forno", prep: null },
+        { id: 204, nome: "Porridge personalizzato", ingredienti: ["Fiocchi d'avena", "Latte o bevanda vegetale", "Topping (Mela/Cannella, Banana/Burro d'arachidi, Mirtilli, ecc.)"], tempo: "7 min", metodo: "🍳 Padella", prep: "Puoi fare l'Overnight Oats la sera prima in frigo." },
+        { id: 205, nome: "Mugcake al cacao", ingredienti: ["Farina", "Cacao amaro", "Latte", "Zucchero", "Lievito"], tempo: "3 min", metodo: "♨️ Microonde", prep: null },
+        { id: 206, nome: "Crêpes e Crêpes al caffè", ingredienti: ["Farina", "Latte", "Uova", "Caffè (opzionale)"], tempo: "10 min", metodo: "🍳 Padella", prep: "Conserva la pastella in frigo." },
+        { id: 207, nome: "Fit tiramisù", ingredienti: ["Fette biscottate o Pavesini", "Caffè", "Yogurt greco", "Cacao amaro"], tempo: "5 min", metodo: "🥗 Senza Cottura", prep: "Componilo la sera prima." },
+        { id: 208, nome: "French toast ripieno", ingredienti: ["Pane in cassetta", "Uovo", "Latte", "Marmellata o Crema"], tempo: "8 min", metodo: "🍳 Padella", prep: null },
+        { id: 209, nome: "Rotolo integrale", ingredienti: ["Farina integrale", "Confettura", "Uova"], tempo: "20 min", metodo: "♨️ Forno", prep: null },
+        { id: 210, nome: "Mug cake mela e cocco", ingredienti: ["Farina", "Farina di cocco", "Mele a cubetti", "Latte"], tempo: "3 min", metodo: "♨️ Microonde", prep: null },
+        { id: 211, nome: "Banana brownie", ingredienti: ["Banana matura", "Cacao amaro", "Burro d'arachidi"], tempo: "15 min", metodo: "♨️ Forno / Air Fryer", prep: null },
+        { id: 212, nome: "Mug cake alla mela", ingredienti: ["Farina", "Mela", "Cannella", "Latte"], tempo: "3 min", metodo: "♨️ Microonde", prep: null },
+        
+        // Dolci & Snack Cucina Botanica
+        { id: 213, nome: "Banana bread 100% vegetale", ingredienti: ["Banane mature", "Farina", "Olio di semi", "Zucchero di canna", "Noci"], tempo: "40 min", metodo: "♨️ Forno", prep: "Cuocilo nel weekend: affettato dura tutta la settimana." },
+        { id: 214, nome: "Cookie morbidi al cioccolato e burro d'arachidi", ingredienti: ["Farina", "Burro d'arachidi", "Gocce di cioccolato", "Sciroppo d'acero"], tempo: "15 min", metodo: "♨️ Forno", prep: null },
+        { id: 215, nome: "Mousse al cioccolato all'avocado", ingredienti: ["Avocado maturo", "Cacao amaro", "Sciroppo d'acero", "Latte vegetale"], tempo: "5 min", metodo: "🥗 Senza Cottura", prep: "Conserva in frigo in vasetti di vetro." },
+        { id: 216, nome: "Porridge cotto con mela, cannella e frutta secca", ingredienti: ["Fiocchi d'avena", "Mela", "Cannella", "Latte d'mandorla", "Noci"], tempo: "8 min", metodo: "🍳 Padella", prep: null },
+        { id: 217, nome: "Torta soffice al limone e semi di papavero", ingredienti: ["Farina", "Succo e scorza di limone", "Semi di papavero", "Latte vegetale", "Olio"], tempo: "35 min", metodo: "♨️ Forno", prep: "Ottima da preparare in anticipo per le colazioni." }
       ]
     };
 
