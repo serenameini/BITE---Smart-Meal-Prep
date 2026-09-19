@@ -1581,7 +1581,6 @@
                 <div class="swap-search">
                   <input type="text" id="search-${index}-colazione" placeholder="Es. banana, porridge, cookies...">
                   <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'colazione')">🔍 Cerca</button>
-                  <button class="btn-recipe" onclick="apriModal(${item.colazione.id}, false, true)">📖 Ricetta</button>
                 </div>
               </div>
             </div>
@@ -1607,7 +1606,6 @@
               <div class="swap-search">
                 <input type="text" id="search-${index}-pranzo" placeholder="Es. tonno, zucca, pollo...">
                 <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'pranzo')">🔍 Cerca</button>
-                <button class="btn-recipe" onclick="apriModal(${item.pranzo.id}, ${item.pranzo.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
               </div>
               <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'pranzo')">⚡ Usa Salvaimprevisti</button>
             </div>
@@ -1628,7 +1626,6 @@
               <div class="swap-search">
                 <input type="text" id="search-${index}-cena" placeholder="Es. tonno, zucca, pollo...">
                 <button class="btn-action" onclick="cercaECambiaPasto(${index}, 'cena')">🔍 Cerca</button>
-                <button class="btn-recipe" onclick="apriModal(${item.cena.id}, ${item.cena.isSalva ? 'true' : 'false'})">📖 Ricetta</button>
               </div>
               <button class="btn-salva-action" onclick="attivaSalvaimprevisti(${index}, 'cena')">⚡ Usa Salvaimprevisti</button>
             </div>
